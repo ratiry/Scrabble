@@ -2,21 +2,5 @@
   display:grid;
   grid-template-columns: repeat(15,1fr);
   grid-template-rows:repeat(15,1fr);
-  .cell{
-    border:1px solid grey;
-    background:black;
-    width:55px;
-    height:55px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    p{
-      font-size:12px !important;
-      margin:0;
-      text-align:center;
-      position:relative;
-      top:25%;
 
-    }
-  }
 }

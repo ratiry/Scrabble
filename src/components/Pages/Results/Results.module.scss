@@ -1,0 +1,19 @@
+.results{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content:center;
+    width:30vw;
+    height:60vh;
+    padding:10px;
+    .resultsImg{
+        width:50%;
+        grid-row-start: 1;
+        grid-row-end:3;
+    }
+    .buttonsContainer{
+        display:flex;
+        justify-content:space-evenly;
+        width:inherit;
+    }
+}

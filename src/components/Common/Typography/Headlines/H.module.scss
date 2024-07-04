@@ -1,0 +1,12 @@
+.H{
+    color:yellow;
+    font-size:20px;
+    text-transform: uppercase;
+    font-weight:bold;
+    &.h1{
+        font-size:30px;
+    }
+    &.h2{
+        font-size: 25px;
+    }
+}

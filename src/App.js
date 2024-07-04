@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className={classes.App}>
-      <Header/>
+      {/* <Header/> */}
       <BrowserRouter>
         <Routes>
           <Route path={URLs.welcome} element={<Welcome/>}></Route>
@@ -23,7 +23,7 @@ function App() {
           <Route path={URLs.results} element={<Results/>}></Route>          
         </Routes>
       </BrowserRouter>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   );
 }

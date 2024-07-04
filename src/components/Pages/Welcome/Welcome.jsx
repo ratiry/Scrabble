@@ -30,20 +30,22 @@ let Welcome=(props)=>{
       })
     }
   
-    return(
-        <div className={classes.Welcome}>
-            <H bouldness={1}>Scrabble game</H>
-            <form  onSubmit={handleSubmit(onSubmit) }>
-                <div className={classes.Item}>
-                    <P>How many players</P>
-                    <select  name="ammountOfPlayers" {...register('ammountOfPlayers')}>
-                    <option >3</option>
-                    <option >4</option>
-                </select>
-                </div>
-                <ButtonWithText>Play</ButtonWithText>
-            </form>
-        </div>
-    )
+    return (
+      <div className={classes.Welcome}>
+        <H bouldness={1}>Scrabble game</H>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={classes.Item}>
+            <P>How many players</P>
+            <select name="ammountOfPlayers" {...register("ammountOfPlayers")}>
+              <option>2</option>
+
+              <option>3</option>
+              <option>4</option>
+            </select>
+          </div>
+          <ButtonWithText>Play</ButtonWithText>
+        </form>
+      </div>
+    );
 }
 export default Welcome;

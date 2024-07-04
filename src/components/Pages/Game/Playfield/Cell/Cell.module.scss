@@ -1,23 +1,4 @@
-.triple_word{
-  background:orange;
-  width:100%;
-  height:100%;
-}
-.double_letter{
-  background:lightblue;
-  width:100%;
-  height:100%;
-}
-.double_word{
-  background:pink;
-  width:100%;
-  height:100%;
-}
-.triple_letter{
-  background:blue;
-  width:100%;
-  height:100%;
-}
+
   .cell{
     border:1px solid grey;
     background:black;
@@ -40,4 +21,31 @@
         fill:white;
       }
     }
+    .triple_word{
+    background:orange;
+    width:100%;
+    height:100%;
   }
+  .double_letter{
+    background:lightblue;
+    width:100%;
+    height:100%;
+  }
+  .double_word{
+    background:pink;
+    width:100%;
+    height:100%;
+  }
+  .triple_letter{
+    background:blue;
+    width:100%;
+    height:100%;
+  }
+  .star{
+    background-image: url("https://www.iconpacks.net/icons/2/free-star-icon-2768-thumb.png");
+    background-size:100%;
+    background-repeat: no-repeat;
+    height:100%;
+    width:100%;
+  }
+}

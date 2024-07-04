@@ -8,8 +8,6 @@ import P from "../../Common/Typography/P/P";
 import H from "../../Common/Typography/Headlines/H";
 let Welcome=(props)=>{
     let navigate=useNavigate();
-    let ComputerPlayers=[];
-    let computerPlayersHtml=[];
     let preffiledValues={
       ammountOfPlayers:'3'
     }
@@ -23,7 +21,6 @@ let Welcome=(props)=>{
     } = useForm({
       defaultValues:preffiledValues
     })
-    let watchFields = watch("ammountOfPlayers"); 
     const onSubmit=(data)=>{
       navigate(URLs.game,{
         state:data
@@ -42,7 +39,11 @@ let Welcome=(props)=>{
               <option>3</option>
               <option>4</option>
             </select>
+            <select name="language" {...register("language")}>
+              <option>English</option>
+            </select>
           </div>
+
           <ButtonWithText>Play</ButtonWithText>
         </form>
       </div>

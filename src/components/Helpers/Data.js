@@ -1,34 +1,36 @@
 
-export const Letters={
-  russian:[],
-  english:[
-    {letter:"A",value:1},
-    {letter:"B",value:3},
-    {letter:"C",value:3},
-    {letter:"D",value:2},
-    {letter:"E",value:1},
-    {letter:"F",value:4},
-    {letter:"G",value:2},
-    {letter:"H",value:4},
-    {letter:"I",value:1},
-    {letter:"J",value:8},
-    {letter:"K",value:5},
-    {letter:"L",value:1},
-    {letter:"M",value:3},
-    {letter:"N",value:1},
-    {letter:"O",value:1},
-    {letter:"P",value:3},
-    {letter:"Q",value:10},
-    {letter:"R",value:1},
-    {letter:"S",value:1},
-    {letter:"T",value:1},
-    {letter:"U",value:1},
-    {letter:"V",value:4},
-    {letter:"W",value:4},
-    {letter:"X",value:8},
-    {letter:"Z",value:10}
-  ]
-}
+export const Letters = {
+  Russian: [],
+  English: [
+    { letter: "A", value: 1, copies: 9 },
+    { letter: "B", value: 3, copies: 2 },
+    { letter: "C", value: 3, copies: 2 },
+    { letter: "D", value: 2, copies: 4 },
+    { letter: "E", value: 1, copies: 12 },
+    { letter: "F", value: 4, copies: 2 },
+    { letter: "G", value: 2, copies: 3 },
+    { letter: "H", value: 4, copies: 2 },
+    { letter: "I", value: 1, copies: 9 },
+    { letter: "J", value: 8, copies: 1 },
+    { letter: "K", value: 5, copies: 1 },
+    { letter: "L", value: 1, copies: 4 },
+    { letter: "M", value: 3, copies: 2 },
+    { letter: "N", value: 1, copies: 6 },
+    { letter: "O", value: 1, copies: 8 },
+    { letter: "P", value: 3, copies: 2 },
+    { letter: "Q", value: 10, copies: 1 },
+    { letter: "R", value: 1, copies: 6 },
+    { letter: "S", value: 1, copies: 4 },
+    { letter: "T", value: 1, copies: 6 },
+    { letter: "U", value: 1, copies: 4 },
+    { letter: "V", value: 4, copies: 2 },
+    { letter: "W", value: 4, copies: 2 },
+    { letter: "X", value: 8, copies: 1 },
+    { letter: "Y", value: 4, copies: 2 },
+    { letter: "Z", value: 10, copies: 1 },
+    { letter: "", value: 0, copies: 2 },
+  ],
+};
 export const Board = {
   0: { multiply: 3, object: "word" },
   3: { multiply: 2, object: "letter" },
@@ -92,3 +94,4 @@ export const Board = {
   221: { multiply: 2, object: "letter" },
   224: { multiply: 3, object: "word" },
 };
+export const LettersPerPerson=7;

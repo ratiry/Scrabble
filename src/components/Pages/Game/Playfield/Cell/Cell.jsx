@@ -4,6 +4,23 @@ import Letter from "../../letter/Letterr";
 const Cell=(props)=>{
   let neededClass="";
   let multiplyerString="";
+  const onClick=()=>{
+    debugger;
+    if(props.board!=undefined & props.board.object!="star"){
+          props.setCandidateCellForCandidateLetterOnClick({
+            position: props.id,
+            multiply: props.board.multiply,
+            object: props.board.object,
+          });
+    }else{
+          props.setCandidateCellForCandidateLetterOnClick({
+            position: props.id,
+            multiply:1,
+            object:"letter"
+          });
+
+    }
+  }
   if(props.board!=undefined){
     multiplyerString="X"+props.board.multiply+" "+ props.board.object;
     switch(props.board.object){
@@ -34,16 +51,30 @@ const Cell=(props)=>{
 
     }
   }
-  return (
-    <div className={cellClasses.cell}>
-      {props.isFilled != true ? (
-        <div className={cellClasses[neededClass]}>
-          <P>{multiplyerString}</P>
+  switch(props.state){
+    case "empty":
+        return (
+          <div className={cellClasses.cell}>
+              <div className={cellClasses[neededClass]}>
+                <P>{multiplyerString}</P>
+              </div>
+          </div>
+        );
+        break;
+    case "active":
+        return (
+          <div onClick={onClick} className={cellClasses.cell}>
+            <div className={cellClasses.active}>
+              <P>{multiplyerString}</P>
+            </div>
+          </div>
+        );
+    case "filled":
+      return (
+        <div className={cellClasses.cell}>
+          <Letter value={props.letter.value} letter={props.letter.letter}/>
         </div>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+      );    
+  }
 }
 export default Cell;

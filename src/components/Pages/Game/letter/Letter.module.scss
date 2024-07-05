@@ -7,6 +7,7 @@
   max-width:50px;
   justify-content: center;
   align-items: center;
+  margin:0.5px;
   .symble{
     font-size:30px;
     color:white;
@@ -15,5 +16,13 @@
     font-size:15px;
     color:white;
     align-self:end;
+  }
+  &.activeLetter{
+    border:grey;
+    background:green;
+    cursor:pointer;
+    &:hover{
+      margin:5px;
+    }
   }
 }

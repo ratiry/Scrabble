@@ -7,7 +7,6 @@ let generateStock=(letters)=>{
       stock.push(letters[i]);
     }
   }
-  debugger;
   return stock;
 }
 let destributeStock=(stock,ammountOfPlayers,lettersPerPerson)=>{

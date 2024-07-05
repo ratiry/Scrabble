@@ -7,6 +7,7 @@ import { LettersPerPerson } from "../../Helpers/Data";
 import { Letters } from "../../Helpers/Data";
 import generateAndDestributeStock from './../../Helpers/generateAndDestributeStock';
 import { widthAndLengthOfBoard } from "../../Helpers/Data";
+import placingLetter from "../../Helpers/placingLetter";
 let Game=()=>{
    let location=useLocation();
    const ammountOfPlayers=location.state.ammountOfPlayers;
@@ -52,6 +53,12 @@ let Game=()=>{
    useEffect(()=>{
     if(candidateCellForCandidateLetter.position!=undefined){
     setCandidatesForMove(array=>[...array,{letter:candidateLetter,position:candidateCellForCandidateLetter.position}]);
+    let [newPlayer,newCells]= placingLetter(players[turn],candidateLetter,candidateCellForCandidateLetter.position,cells);
+    debugger;
+    const newPlayers=[...players];
+    newPlayers[turn]=newPlayer;
+    setPlayers(newPlayers);
+    setCells(newCells);
     setCandidateLetter({});
     setAreCellsAvaliableForPicking(false);
     setAreLettersAvaliableForPicking(false);

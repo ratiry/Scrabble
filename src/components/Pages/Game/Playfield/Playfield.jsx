@@ -8,6 +8,8 @@ const Playfield=(props)=>{
   const cells = [...Array((props.widthAndLengthOfBoard)*(props.widthAndLengthOfBoard)).keys()];
   const cellsHtml=cells.map((cell,index)=>{return (
     <Cell
+
+      letter={props.cells[index]}
       setCandidateCellForCandidateLetterOnClick={props.setCandidateCellForCandidateLetterOnClick}
       areCellsAvaliableForPicking={props.areCellsAvaliableForPicking}
       avaliablePositions={props.avaliablePositions}

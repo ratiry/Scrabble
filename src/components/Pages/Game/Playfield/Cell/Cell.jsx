@@ -6,7 +6,7 @@ const Cell=(props)=>{
   let multiplyerString="";
   const onClick=()=>{
     debugger;
-    if(props.board!=undefined & props.board.object!="star"){
+    if(props.board!=undefined & props.id!=112){
           props.setCandidateCellForCandidateLetterOnClick({
             position: props.id,
             multiply: props.board.multiply,

@@ -8,6 +8,10 @@ import { Letters } from "../../Helpers/Data";
 import generateAndDestributeStock from './../../Helpers/generateAndDestributeStock';
 import { widthAndLengthOfBoard } from "../../Helpers/Data";
 import placingLetter from "../../Helpers/placingLetter";
+import { ButtonWithText } from "../../Common/Buttons/Buttons";
+import ButtonsContainer from "./buttonsContainer/buttonsContainer";
+import changingTurns from "../../Helpers/changingTurns";
+import getAvaliableCells from "../../Helpers/getAvaliableCells";
 let Game=()=>{
    let location=useLocation();
    const ammountOfPlayers=location.state.ammountOfPlayers;
@@ -24,12 +28,18 @@ let Game=()=>{
    const [candidatesForMove,setCandidatesForMove]=useState([]);
    const [areCellsAvaliableForPicking,setAreCellsAvaliableForPicking]=useState(false);
    const [cells,setCells]=useState(Array(widthAndLengthOfBoard**2).fill(false));
+   const [shouldShowEndMoveButton,setShouldShowEndMoveButton]=useState(false);
    const setCandidateCellForCandidateLetterOnClick=(cell)=>{
     setCandidateCellForCandidateLetter(cell);
    }
    const setCandidateLetterOnClick=(letter)=>{
     setCandidateLetter(letter);
     setAreCellsAvaliableForPicking(true);
+   }
+   const EndMoveButtonOnClick=()=>{
+    setIsPlayersMoveActual(false);
+    setTurn(changingTurns(ammountOfPlayers,turn));
+
    }
    useEffect(()=>{
     let [stock,players,word]=generateAndDestributeStock(Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
@@ -42,6 +52,8 @@ let Game=()=>{
     if(turn >-1){
       if(turn==0){
         setIsPlayersMoveActual(true);
+      }else{
+        debugger;
       }
     }
    },[turn])
@@ -52,17 +64,17 @@ let Game=()=>{
    },[isPlayersMoveActual])  
    useEffect(()=>{
     if(candidateCellForCandidateLetter.position!=undefined){
-    setCandidatesForMove(array=>[...array,{letter:candidateLetter,position:candidateCellForCandidateLetter.position}]);
-    let [newPlayer,newCells]= placingLetter(players[turn],candidateLetter,candidateCellForCandidateLetter.position,cells);
-    debugger;
-    const newPlayers=[...players];
-    newPlayers[turn]=newPlayer;
-    setPlayers(newPlayers);
-    setCells(newCells);
-    setCandidateLetter({});
-    setAreCellsAvaliableForPicking(false);
-    setAreLettersAvaliableForPicking(false);
-    setCandidateCellForCandidateLetter({});
+      setCandidatesForMove(array=>[...array,{letter:candidateLetter,position:candidateCellForCandidateLetter.position}]);
+      let [newPlayer,newCells]= placingLetter(players[turn],candidateLetter,candidateCellForCandidateLetter.position,cells);
+      const newPlayers=[...players];
+      newPlayers[turn]=newPlayer;
+      setPlayers(newPlayers);
+      setCells(newCells);
+      setCandidateLetter({});
+      setAreLettersAvaliableForPicking(true);
+      setCandidateCellForCandidateLetter({});
+      setShouldShowEndMoveButton(true);
+      setAvaliablePositions(getAvaliableCells(newCells,widthAndLengthOfBoard));
     }
    },[candidateCellForCandidateLetter])
     return (
@@ -92,7 +104,11 @@ let Game=()=>{
           id={3}
           ammountOfPlayers={ammountOfPlayers}
         ></Player>
-        <div>action button</div>
+        <ButtonsContainer
+          shouldShowEndMoveButton={shouldShowEndMoveButton}
+          EndMoveButtonOnClick={EndMoveButtonOnClick}
+          setShouldShowEndMoveButton={setShouldShowEndMoveButton}
+        />
         <Player
           setCandidateLetterOnClick={setCandidateLetterOnClick}
           areLettersAvaliableForPicking={areLettersAvaliableForPicking}

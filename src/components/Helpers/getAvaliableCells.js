@@ -7,19 +7,64 @@ const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,
          (cells[position - widthAndLengthOfBoard] == false)
        ) {
          avaliableCells_copy.push(position - widthAndLengthOfBoard);
+       }else if (cells[position - widthAndLengthOfBoard] !=false & position - widthAndLengthOfBoard > -1) {
+          let i=position;
+          let anotherCondition=false;
+          while(i-widthAndLengthOfBoard>-1 & cells[i - widthAndLengthOfBoard] !=false || !anotherCondition){
+            i=i-widthAndLengthOfBoard;
+            if ( i>-1 & cells[i]==false){
+              anotherCondition=true;
+            }
+          }
+          if (cells[i] ==false) {
+            avaliableCells_copy.push(i);
+          }
        }
        if (
          (position + widthAndLengthOfBoard < cells.length) &
          (cells[position + widthAndLengthOfBoard] == false)
        ) {
          avaliableCells_copy.push(position + widthAndLengthOfBoard);
+       }else if (cells[position + widthAndLengthOfBoard] !=false & position + widthAndLengthOfBoard < cells.length) {
+          let i=position;
+          let anotherCondition=false;
+          while(i+widthAndLengthOfBoard<cells.length & cells[i + widthAndLengthOfBoard] !=false || !anotherCondition){
+            i=i+widthAndLengthOfBoard;
+            if ((i < cells.length) & (cells[i] == false)) {
+              anotherCondition = true;
+            }
+          }
+          if (cells[i] ==false) {
+            avaliableCells_copy.push(i);
+          }
        }
        if (((position + 1) % widthAndLengthOfBoard != 0) & (cells[position + 1] == false)) {
          avaliableCells_copy.push(position + 1);
+       }else if (cells[position + 1] !=false & (position + 1)  % widthAndLengthOfBoard != 0) {
+          for(let i = position+1;i<cells.length;i++){
+            if(i%widthAndLengthOfBoard==0){
+              break;
+            }
+            if(cells[i]==false){
+              avaliableCells_copy.push(i);
+              break;
+            }
+          }
        }
        if ((position % widthAndLengthOfBoard != 0) & (cells[position - 1] == false)) {
          avaliableCells_copy.push(position - 1);
+       }else if (cells[position - 1] !=false & (position )  % widthAndLengthOfBoard != 0) {
+          for (let i = position - 1; i > -1; i--) {
+            if (i % widthAndLengthOfBoard == 0) {
+              break;
+            }
+            if (cells[i] == false) {
+              avaliableCells_copy.push(i);
+              break;
+            }
+          }
        }
+
      }
   return avaliableCells_copy;
 
@@ -33,8 +78,7 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
     }
   }else if(ammountOfLettersInMove==1){
     avaliableCells=condiditionalsForCheckingNeighbours(candidatePosition.position,widthAndLengthOfBoard,cells,avaliableCells);
-  }else if(ammountOfLettersInMove>1){
-    debugger;
+   }else if(ammountOfLettersInMove>1){
     switch(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position){
       case -1:
         if(candidatePosition.position%widthAndLengthOfBoard!=0){
@@ -49,8 +93,8 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
       case widthAndLengthOfBoard:
         if(candidatePosition.position+widthAndLengthOfBoard<cells.length){
           avaliableCells.push(candidatePosition.position+widthAndLengthOfBoard);
-          break;
         }
+        break;
       case 0-widthAndLengthOfBoard:
         if(candidatePosition.position-widthAndLengthOfBoard>-1){
           avaliableCells.push(candidatePosition.position-widthAndLengthOfBoard);

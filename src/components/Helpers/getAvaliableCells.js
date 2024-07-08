@@ -1,7 +1,6 @@
 
-const getAvaliableCells=(cells,widthAndLengthOfBoard)=>{
+const getAvaliableCells=(cells,widthAndLengthOfBoard,isAmmountOfLettersMoreThanOneInMove,prevAvailablePositions)=>{
   const avaliableCells=[];
-  debugger;
   for(let i=0;i<cells.length;i++){
     if(cells[i]!=false){
       if ((i - widthAndLengthOfBoard > -1) & cells[i - widthAndLengthOfBoard] == false) {

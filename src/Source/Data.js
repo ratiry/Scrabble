@@ -94,5 +94,5 @@ export const Board = {
   221: { multiply: 2, object: "letter" },
   224: { multiply: 3, object: "word" },
 };
-export const LettersPerPerson=7;
+export const LettersPerPerson=10;
 export const widthAndLengthOfBoard=15;

@@ -79,28 +79,73 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
   }else if(ammountOfLettersInMove==1){
     avaliableCells=condiditionalsForCheckingNeighbours(candidatePosition.position,widthAndLengthOfBoard,cells,avaliableCells);
    }else if(ammountOfLettersInMove>1){
-    switch(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position){
-      case -1:
-        if(candidatePosition.position%widthAndLengthOfBoard!=0){
-          avaliableCells.push(candidatePosition.position-1);
+    console.log(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position);
+    let [tip1, tip2] = [candidatePosition.position, candidatePosition.position];
+    if((candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position) % widthAndLengthOfBoard==0){
+      for(let i=candidatePosition.position;i<cells.length;i=i+widthAndLengthOfBoard){
+        console.log(i);
+        if(i>cells.length){
+          break;
         }
-        break;
-      case 1:
-        if((candidatePosition.position+1)%widthAndLengthOfBoard!=0){
-          avaliableCells.push(candidatePosition.position+1);
-        }  
-        break;      
-      case widthAndLengthOfBoard:
-        if(candidatePosition.position+widthAndLengthOfBoard<cells.length){
-          avaliableCells.push(candidatePosition.position+widthAndLengthOfBoard);
+        if(cells[i]==false){
+          tip1=i;
+          break;
         }
-        break;
-      case 0-widthAndLengthOfBoard:
-        if(candidatePosition.position-widthAndLengthOfBoard>-1){
-          avaliableCells.push(candidatePosition.position-widthAndLengthOfBoard);
-        }      
-        break;  
+      } 
+      for(let i=candidatePosition.position;i>-1;i=i-widthAndLengthOfBoard){
+          if(i<0){
+            break;
+          }
+          if(cells[i]==false){
+            tip2=i;
+            break;
+          }
+      }   
+    }else{
+      for(let i=candidatePosition.position;i<cells.length;i++){
+        if(i%widthAndLengthOfBoard==0){
+          break;
+        }
+        if(cells[i]==false){
+          tip1=i;
+          break;
+        }
+      } 
+      for (let i = candidatePosition.position; i >-1; i--) {
+        if ((i+1) % widthAndLengthOfBoard == 0) {
+          break;
+        }
+        if (cells[i] == false) {
+          tip2 = i;
+          break;
+        }
+      }              
     }
+    avaliableCells.push(tip1);
+    avaliableCells.push(tip2);
+    debugger;
+    // switch(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position){
+    //   case -1:
+    //     if(candidatePosition.position%widthAndLengthOfBoard!=0){
+    //       avaliableCells.push(candidatePosition.position-1);
+    //     }
+    //     break;
+    //   case 1:
+    //     if((candidatePosition.position+1)%widthAndLengthOfBoard!=0){
+    //       avaliableCells.push(candidatePosition.position+1);
+    //     }  
+    //     break;      
+    //   case widthAndLengthOfBoard:
+    //     if(candidatePosition.position+widthAndLengthOfBoard<cells.length){
+    //       avaliableCells.push(candidatePosition.position+widthAndLengthOfBoard);
+    //     }
+    //     break;
+    //   case 0-widthAndLengthOfBoard:
+    //     if(candidatePosition.position-widthAndLengthOfBoard>-1){
+    //       avaliableCells.push(candidatePosition.position-widthAndLengthOfBoard);
+    //     }      
+    //     break;  
+    // }
   }
  return avaliableCells;
 

@@ -54,9 +54,9 @@ const Cell=(props)=>{
     case "empty":
         return (
           <div className={cellClasses.cell}>
-              <div className={cellClasses[neededClass]}>
-                <P>{multiplyerString}</P>
-              </div>
+            <div className={cellClasses[neededClass]}>
+              <P>{multiplyerString}</P>
+            </div>
           </div>
         );
         break;

@@ -32,7 +32,7 @@ const Game = () => {
   const [areCellsAvaliableForPicking, setAreCellsAvaliableForPicking] = useState(false);
   const [cells, setCells] = useState(Array(widthAndLengthOfBoard ** 2).fill(false));
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
-  const [isAmmountOfLettersMoreThanOneInMove,setIsAmmountOfLettersMoreThanOneInMove] = useState(false);
+  const [ammountOfLetterInMove, setAmmountOfLetterInMove] = useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     setCandidateCellForCandidateLetter(cell);
   };
@@ -43,7 +43,7 @@ const Game = () => {
   const EndMoveButtonOnClick = () => {
     setIsPlayersMoveActual(false);
     setTurn(changingTurns(ammountOfPlayers, turn));
-    setIsAmmountOfLettersMoreThanOneInMove(false);
+    setAmmountOfLetterInMove(0);
   };
   useEffect(() => {
     let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
@@ -55,8 +55,9 @@ const Game = () => {
       getAvaliableCells(
         newCells,
         widthAndLengthOfBoard,
-        isAmmountOfLettersMoreThanOneInMove,
-        avaliablePositions
+        ammountOfLetterInMove,
+        candidatesForMove,
+        candidateCellForCandidateLetter
       )
     );
     setPlayers(players);
@@ -103,13 +104,14 @@ const Game = () => {
       setAreLettersAvaliableForPicking(true);
       setCandidateCellForCandidateLetter({});
       setShouldShowEndMoveButton(true);
-      setIsAmmountOfLettersMoreThanOneInMove(true);
+      setAmmountOfLetterInMove(ammount=>ammount+1);
       setAvaliablePositions(
         getAvaliableCells(
           newCells,
           widthAndLengthOfBoard,
-          isAmmountOfLettersMoreThanOneInMove,
-          avaliablePositions
+          ammountOfLetterInMove+1,
+          candidatesForMove,
+          candidateCellForCandidateLetter
         )
       );
     }

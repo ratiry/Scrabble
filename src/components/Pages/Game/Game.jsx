@@ -32,7 +32,6 @@ const Game = () => {
   const [areCellsAvaliableForPicking, setAreCellsAvaliableForPicking] = useState(false);
   const [cells, setCells] = useState(Array(widthAndLengthOfBoard ** 2).fill(false));
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
-  const [ammountOfLetterInMove, setAmmountOfLetterInMove] = useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     setCandidateCellForCandidateLetter(cell);
   };
@@ -43,8 +42,32 @@ const Game = () => {
   const EndMoveButtonOnClick = () => {
     setIsPlayersMoveActual(false);
     setTurn(changingTurns(ammountOfPlayers, turn));
-    setAmmountOfLetterInMove(0);
   };
+  const deleteCandidateLetterOnDoubleClick=(id)=>{
+    for(let i=0;i<candidatesForMove.length;i++){
+      if(candidatesForMove[i].position==id){
+        const cells_copy=[...cells];
+        const candidatesForMove_copy=[...candidatesForMove];
+        const players_copy=[...players];
+        for(let j=candidatesForMove.length-1;j>-1;j--){
+          cells_copy[candidatesForMove[j].position] = false;
+          players_copy[turn].push(candidatesForMove_copy[candidatesForMove_copy.length-1].letter);
+          candidatesForMove_copy.pop(); 
+          if (candidatesForMove[j].position==id) {
+            break;
+          }
+        }
+        setPlayers(players_copy);
+        setCells(cells_copy);
+        setAvaliablePositions(getAvaliableCells(
+          cells_copy,widthAndLengthOfBoard,
+          candidatesForMove_copy.length,candidatesForMove_copy,
+          candidatesForMove_copy[candidatesForMove_copy.length-1]
+        ))
+        
+      }
+    }
+  }
   useEffect(() => {
     let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
     setStock(stock);
@@ -104,7 +127,6 @@ const Game = () => {
       setAreLettersAvaliableForPicking(true);
       setCandidateCellForCandidateLetter({});
       setShouldShowEndMoveButton(true);
-      setAmmountOfLetterInMove(ammount=>ammount+1);
       setAvaliablePositions(
         getAvaliableCells(
           newCells,
@@ -132,12 +154,11 @@ const Game = () => {
       ></Player>
 
       <Playfield
-        setCandidateCellForCandidateLetterOnClick={
-          setCandidateCellForCandidateLetterOnClick
-        }
+        setCandidateCellForCandidateLetterOnClick={setCandidateCellForCandidateLetterOnClick}
         areCellsAvaliableForPicking={areCellsAvaliableForPicking}
         widthAndLengthOfBoard={widthAndLengthOfBoard}
         avaliablePositions={avaliablePositions}
+        deleteCandidateLetterOnDoubleClick={deleteCandidateLetterOnDoubleClick}
         cells={cells}
       />
       <Player

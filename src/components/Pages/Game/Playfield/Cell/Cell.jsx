@@ -20,6 +20,9 @@ const Cell=(props)=>{
 
     }
   }
+  const onDeleteDoubleClick=()=>{
+    props.deleteCandidateLetterOnDoubleClick(props.id);
+  }
   if(props.board!=undefined){
     multiplyerString="X"+props.board.multiply+" "+ props.board.object;
     switch(props.board.object){
@@ -69,8 +72,8 @@ const Cell=(props)=>{
         );
     case "filled":
       return (
-        <div className={cellClasses.cell}>
-          <Letter value={props.letter.value} letter={props.letter.letter}/>
+        <div onDoubleClick={onDeleteDoubleClick} className={cellClasses.cell}>
+          <Letter value={props.letter.value} letter={props.letter.letter} />
         </div>
       );    
   }

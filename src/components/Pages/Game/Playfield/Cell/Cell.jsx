@@ -59,7 +59,6 @@ const Cell=(props)=>{
             </div>
           </div>
         );
-        break;
     case "active":
         return (
           <div onClick={onClick} className={cellClasses.cell}>

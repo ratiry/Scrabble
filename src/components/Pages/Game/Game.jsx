@@ -55,7 +55,7 @@ const Game = () => {
       getAvaliableCells(
         newCells,
         widthAndLengthOfBoard,
-        ammountOfLetterInMove,
+        candidatesForMove.length,
         candidatesForMove,
         candidateCellForCandidateLetter
       )
@@ -109,7 +109,7 @@ const Game = () => {
         getAvaliableCells(
           newCells,
           widthAndLengthOfBoard,
-          ammountOfLetterInMove+1,
+          candidatesForMove.length+1,
           candidatesForMove,
           candidateCellForCandidateLetter
         )

@@ -103,7 +103,8 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
       }   
     }else{
       for(let i=candidatePosition.position;i<cells.length;i++){
-        if(i%widthAndLengthOfBoard==0){
+        if(i%widthAndLengthOfBoard==0 & i!=candidatePosition.position){
+          debugger;
           break;
         }
         if(cells[i]==false){
@@ -112,7 +113,8 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
         }
       } 
       for (let i = candidatePosition.position; i >-1; i--) {
-        if ((i+1) % widthAndLengthOfBoard == 0) {
+        if ((i+1) % widthAndLengthOfBoard == 0 & i!=candidatePosition.position) {
+          debugger;
           break;
         }
         if (cells[i] == false) {
@@ -123,31 +125,8 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
     }
     avaliableCells.push(tip1);
     avaliableCells.push(tip2);
-    debugger;
-    // switch(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position){
-    //   case -1:
-    //     if(candidatePosition.position%widthAndLengthOfBoard!=0){
-    //       avaliableCells.push(candidatePosition.position-1);
-    //     }
-    //     break;
-    //   case 1:
-    //     if((candidatePosition.position+1)%widthAndLengthOfBoard!=0){
-    //       avaliableCells.push(candidatePosition.position+1);
-    //     }  
-    //     break;      
-    //   case widthAndLengthOfBoard:
-    //     if(candidatePosition.position+widthAndLengthOfBoard<cells.length){
-    //       avaliableCells.push(candidatePosition.position+widthAndLengthOfBoard);
-    //     }
-    //     break;
-    //   case 0-widthAndLengthOfBoard:
-    //     if(candidatePosition.position-widthAndLengthOfBoard>-1){
-    //       avaliableCells.push(candidatePosition.position-widthAndLengthOfBoard);
-    //     }      
-    //     break;  
-    // }
+
   }
  return avaliableCells;
-
 }
 export default getAvaliableCells;

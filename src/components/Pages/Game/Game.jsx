@@ -7,12 +7,12 @@ import { LettersPerPerson } from "../../../Source/Data";
 import { Letters } from "../../../Source/Data";
 import generateAndDestributeStock from "./../../Helpers/generateAndDestributeStock";
 import { widthAndLengthOfBoard } from "../../../Source/Data";
-import { ButtonWithText } from "../../Common/Buttons/Buttons";
 import ButtonsContainer from "./buttonsContainer/buttonsContainer";
 import changingTurns from "../../Helpers/changingTurns";
 import getAvaliableCells from "../../Helpers/getAvaliableCells";
 import placingLetter from './../../Helpers/placingLetter';
-import getRandomInt from './../../Helpers/Random';
+import { Board } from "../../../Source/Data";
+import getWordsOfMove from './../../Helpers/getWordsOfMove';
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = location.state.ammountOfPlayers;
@@ -40,40 +40,20 @@ const Game = () => {
     setAreCellsAvaliableForPicking(true);
   };
   const EndMoveButtonOnClick = () => {
+    const words = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
     setIsPlayersMoveActual(false);
+    setAreCellsAvaliableForPicking(false);
+    setAreLettersAvaliableForPicking(false);
+    setCandidateLetter({});
+    setCandidateCellForCandidateLetterOnClick({});
+    setShouldShowEndMoveButton(false);
     setTurn(changingTurns(ammountOfPlayers, turn));
+
   };
-  const deleteCandidateLetterOnDoubleClick=(id)=>{
-    for(let i=0;i<candidatesForMove.length;i++){
-      if(candidatesForMove[i].position==id){
-        const cells_copy=[...cells];
-        const candidatesForMove_copy=[...candidatesForMove];
-        const players_copy=[...players];
-        for(let j=candidatesForMove.length-1;j>-1;j--){
-          cells_copy[candidatesForMove[j].position] = false;
-          players_copy[turn].push(candidatesForMove_copy[candidatesForMove_copy.length-1].letter);
-          candidatesForMove_copy.pop(); 
-          if (candidatesForMove[j].position==id) {
-            break;
-          }
-        }
-        setPlayers(players_copy);
-        setCells(cells_copy);
-        setAvaliablePositions(getAvaliableCells(
-          cells_copy,widthAndLengthOfBoard,
-          candidatesForMove_copy.length,candidatesForMove_copy,
-          candidatesForMove_copy[candidatesForMove_copy.length-1]
-        ))
-        
-      }
-    }
-  }
   useEffect(() => {
     let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
     setStock(stock);
     let [newStock,newCells]=placingLetter(stock,stock[stock.length-1],(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2,cells);
-    setStock(newStock);
-    setCells(newCells);
     setAvaliablePositions(
       getAvaliableCells(
         newCells,
@@ -83,6 +63,8 @@ const Game = () => {
         candidateCellForCandidateLetter
       )
     );
+    setStock(newStock);
+    setCells(newCells);
     setPlayers(players);
     setTheFirstWord(word);
     setTurn(0);
@@ -92,7 +74,6 @@ const Game = () => {
       if (turn == 0) {
         setIsPlayersMoveActual(true);
       } else {
-        debugger;
       }
     }
   }, [turn]);
@@ -121,12 +102,6 @@ const Game = () => {
       );
       const newPlayers = [...players];
       newPlayers[turn] = newPlayer;
-      setPlayers(newPlayers);
-      setCells(newCells);
-      setCandidateLetter({});
-      setAreLettersAvaliableForPicking(true);
-      setCandidateCellForCandidateLetter({});
-      setShouldShowEndMoveButton(true);
       setAvaliablePositions(
         getAvaliableCells(
           newCells,
@@ -136,6 +111,12 @@ const Game = () => {
           candidateCellForCandidateLetter
         )
       );
+      setPlayers(newPlayers);
+      setCells(newCells);
+      setCandidateLetter({});
+      setAreLettersAvaliableForPicking(true);
+      setCandidateCellForCandidateLetter({});
+      setShouldShowEndMoveButton(true);
     }
   }, [candidateCellForCandidateLetter]);
   return (
@@ -158,8 +139,8 @@ const Game = () => {
         areCellsAvaliableForPicking={areCellsAvaliableForPicking}
         widthAndLengthOfBoard={widthAndLengthOfBoard}
         avaliablePositions={avaliablePositions}
-        deleteCandidateLetterOnDoubleClick={deleteCandidateLetterOnDoubleClick}
         cells={cells}
+        Board={Board}
       />
       <Player
         letters={players[3]}

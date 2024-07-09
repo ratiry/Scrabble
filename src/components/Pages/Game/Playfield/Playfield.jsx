@@ -18,7 +18,7 @@ const Playfield = (props) => {
         areCellsAvaliableForPicking={props.areCellsAvaliableForPicking}
         avaliablePositions={props.avaliablePositions}
         deleteCandidateLetterOnDoubleClick={props.deleteCandidateLetterOnDoubleClick}
-        board={Board[index]}
+        board={props.Board[index]}
         id={index}
         state={
           props.cells[index] != false

@@ -104,7 +104,6 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
     }else{
       for(let i=candidatePosition.position;i<cells.length;i++){
         if(i%widthAndLengthOfBoard==0 & i!=candidatePosition.position){
-          debugger;
           break;
         }
         if(cells[i]==false){
@@ -114,7 +113,6 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
       } 
       for (let i = candidatePosition.position; i >-1; i--) {
         if ((i+1) % widthAndLengthOfBoard == 0 & i!=candidatePosition.position) {
-          debugger;
           break;
         }
         if (cells[i] == false) {

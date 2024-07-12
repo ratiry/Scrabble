@@ -13,6 +13,9 @@ import getAvaliableCells from "../../Helpers/getAvaliableCells";
 import placingLetter from './../../Helpers/placingLetter';
 import { Board } from "../../../Source/Data";
 import getWordsOfMove from './../../Helpers/getWordsOfMove';
+import { getDefintion_API } from "../../../API/dictionary";
+import checkExistenceOfWords from './../../Helpers/checkingExistenceOfWords';
+import P from "../../Common/Typography/P/P";
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = location.state.ammountOfPlayers;
@@ -32,6 +35,7 @@ const Game = () => {
   const [areCellsAvaliableForPicking, setAreCellsAvaliableForPicking] = useState(false);
   const [cells, setCells] = useState(Array(widthAndLengthOfBoard ** 2).fill(false));
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
+  const [candidatesWords,setCandidatesWords]=useState(undefined);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     setCandidateCellForCandidateLetter(cell);
   };
@@ -41,15 +45,10 @@ const Game = () => {
   };
   const EndMoveButtonOnClick = () => {
     const words = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
-    setIsPlayersMoveActual(false);
-    setAreCellsAvaliableForPicking(false);
-    setAreLettersAvaliableForPicking(false);
-    setCandidateLetter({});
-    setCandidateCellForCandidateLetterOnClick({});
+    const sortedWords=checkExistenceOfWords(words,setCandidatesWords);
     setShouldShowEndMoveButton(false);
-    setTurn(changingTurns(ammountOfPlayers, turn));
-
   };
+  
   useEffect(() => {
     let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
     setStock(stock);
@@ -119,15 +118,26 @@ const Game = () => {
       setShouldShowEndMoveButton(true);
     }
   }, [candidateCellForCandidateLetter]);
+  useEffect(()=>{
+    if(candidatesWords!=undefined){
+      setIsPlayersMoveActual(false);
+      setAreCellsAvaliableForPicking(false);
+      setAreLettersAvaliableForPicking(false);
+      setCandidateLetter({});
+      setCandidateCellForCandidateLetterOnClick({});
+      setTurn(changingTurns(ammountOfPlayers, turn));
+
+    }
+  },[candidatesWords])
   return (
     <div className={classes.Game}>
-      <div>remaining letters</div>
+      <div> <P>points board</P></div>
       <Player
         letters={players[1]}
         id={1}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
-      <div>used words popup</div>
+      <div><P>leaders</P> </div>
       <Player
         letters={players[2]}
         id={2}
@@ -160,7 +170,7 @@ const Game = () => {
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
 
-      <div>results</div>
+      <div><P>results</P> </div>
     </div>
   );
 };

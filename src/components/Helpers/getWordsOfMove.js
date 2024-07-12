@@ -6,8 +6,8 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
     let verticalTip1 = candidatesForMove[i].position;
     let verticalTip2 = candidatesForMove[i].position;
     let horizontalTip1 = candidatesForMove[i].position;
-    const horizontalWord={letters:[],word:""};
-    const verticalWord={letters:[],word:""};
+    const horizontalWord={letters:[],word:"",tips:{vertical:[],horizontal:[]}};
+    const verticalWord={letters:[],word:"",tips:{vertical:[],horizontal:[]}};
     for(let j=candidatesForMove[i].position;j>-1;j=j-widthAndLengthOfBoard){
       verticalTip1=verticalTip1-widthAndLengthOfBoard;
       if(cells[verticalTip1]==false){
@@ -38,6 +38,10 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
         break;
       }
     } 
+    verticalWord.tips.vertical.push(verticalTip1);
+    verticalWord.tips.vertical.push(verticalTip2);
+    horizontalWord.tips.horizontal.push(horizontalTip1);
+    horizontalWord.tips.horizontal.push(horizontalTip2);
     if(verticalTip2-verticalTip1!=2*widthAndLengthOfBoard){
       for (let j = verticalTip1+widthAndLengthOfBoard; j < verticalTip2; j = j + widthAndLengthOfBoard) {
         verticalWord.letters.push({ position: Board[j],letter:cells[j] });
@@ -59,7 +63,6 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
 
     }
   }
-  debugger;
   return words;
 }
 export default getWordsOfMove;

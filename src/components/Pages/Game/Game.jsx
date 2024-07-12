@@ -122,6 +122,7 @@ const Game = () => {
     if(candidatesWords!=undefined){
       setIsPlayersMoveActual(false);
       setAreCellsAvaliableForPicking(false);
+      debugger;
       setAreLettersAvaliableForPicking(false);
       setCandidateLetter({});
       setCandidateCellForCandidateLetterOnClick({});

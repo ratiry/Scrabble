@@ -54,10 +54,12 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
         horizontalWord.word = horizontalWord.word+cells[j].letter;
       }
     }
-    if(words.find(word=>word.word==horizontalWord.word) ==undefined & horizontalWord.word!=""){
+    if(words.find(word=>word.tips.horizontal[0]==horizontalWord.tips.horizontal[0] 
+      & word.tips.horizontal[1]==horizontalWord.tips.horizontal[1]) ==undefined & horizontalWord.word!=""){
       words.push(horizontalWord);
     }
-    if (words.find((word) => word.word == verticalWord.word) == undefined & verticalWord.word!="") {
+    if (words.find(word=>word.tips.vertical[0]==verticalWord.tips.vertical[0] 
+      & word.tips.vertical[1]==verticalWord.tips.vertical[1]) == undefined & verticalWord.word!="") {
 
       words.push(verticalWord);
 

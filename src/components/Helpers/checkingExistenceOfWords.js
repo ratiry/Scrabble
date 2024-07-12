@@ -13,7 +13,8 @@ const checkExistenceOfWords=(words,setCandidatesWords)=>{
   Promise.all(requests).then(response=>{
     for(let word=0;word<response.length;word++){
       if(response[word]!=undefined){
-        let currentWord={word:words[word],groups:[]};
+        let currentWord={word:words[word],groups:[],ref:""};
+        currentWord.ref = response[word].data[0].sourceUrls[0];
         for(let wordWithOneMeaning=0;wordWithOneMeaning<response[word].data.length;wordWithOneMeaning++){
           for(let meanings=0;meanings<response[word].data[wordWithOneMeaning].meanings.length;meanings++){
             let group= {partOfSpeech:response[word].data[wordWithOneMeaning].meanings[meanings].partOfSpeech,definitions:[]};

@@ -17,6 +17,7 @@ import { getDefintion_API } from "../../../API/dictionary";
 import checkExistenceOfWords from './../../Helpers/checkingExistenceOfWords';
 import P from "../../Common/Typography/P/P";
 import PointsContainer from "./PointsContainer/PointsContainer";
+import countPoints from "../../Helpers/countPoints";
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = location.state.ammountOfPlayers;
@@ -120,17 +121,19 @@ const Game = () => {
     }
   }, [candidateCellForCandidateLetter]);
   useEffect(()=>{
-    if(candidatesWords!=undefined){
+    if(candidatesWords!=undefined & candidatesForMove.length>0){
       if(candidatesWords.find(word=>word.isExistant==false)){
         const players_copy=[...players];
         let newCells=[...cells];
         players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
-        
         newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
         setPlayers(players_copy);
         setCells(newCells);
         
       }else{
+        const [points,words]=countPoints(candidatesWords,candidatesForMove);
+        debugger;
+        setCandidatesWords(words);
         
       }
       setCandidateLetter({});

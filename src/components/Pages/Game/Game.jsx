@@ -16,6 +16,7 @@ import getWordsOfMove from './../../Helpers/getWordsOfMove';
 import { getDefintion_API } from "../../../API/dictionary";
 import checkExistenceOfWords from './../../Helpers/checkingExistenceOfWords';
 import P from "../../Common/Typography/P/P";
+import PointsContainer from "./PointsContainer/PointsContainer";
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = location.state.ammountOfPlayers;
@@ -77,7 +78,7 @@ const Game = () => {
     }
   }, [turn]);
   useEffect(() => {
-    if (isPlayersMoveActual == true) {
+    if (isPlayersMoveActual) {
       setAreLettersAvaliableForPicking(true);
     }
   }, [isPlayersMoveActual]);
@@ -120,19 +121,38 @@ const Game = () => {
   }, [candidateCellForCandidateLetter]);
   useEffect(()=>{
     if(candidatesWords!=undefined){
-      setIsPlayersMoveActual(false);
-      setAreCellsAvaliableForPicking(false);
-      debugger;
-      setAreLettersAvaliableForPicking(false);
+      if(candidatesWords.find(word=>word.isExistant==false)){
+        const players_copy=[...players];
+        let newCells=[...cells];
+        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
+        
+        newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
+        setPlayers(players_copy);
+        setCells(newCells);
+        
+      }else{
+        
+      }
       setCandidateLetter({});
-      setCandidateCellForCandidateLetterOnClick({});
-      setTurn(changingTurns(ammountOfPlayers, turn));
-
+      setAreCellsAvaliableForPicking(false);
+      setCandidateCellForCandidateLetter({});
+      // setCandidatesWords([]);
+      setCandidatesForMove([]);
+      setAvaliablePositions(
+        getAvaliableCells(
+          cells,
+          widthAndLengthOfBoard,
+          0,
+          [],
+          candidateCellForCandidateLetter
+        )
+      );
     }
   },[candidatesWords])
+
   return (
     <div className={classes.Game}>
-      <div> <P>points board</P></div>
+      <PointsContainer candidatesWords={candidatesWords} words={words}/>
       <Player
         letters={players[1]}
         id={1}

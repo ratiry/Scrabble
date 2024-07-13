@@ -1,7 +1,7 @@
 
 import { getDefintion_API } from './../../API/dictionary';
 const checkExistenceOfWords=(words,setCandidatesWords)=>{
-  const sortedWords={existant:[],nonExistant:[]};
+  const sortedWords=[];
   const requests=[];
   for(let i=0;i<words.length;i++){
     requests.push( getDefintion_API.getDefintion(words[i].word).catch(error=>{
@@ -13,7 +13,7 @@ const checkExistenceOfWords=(words,setCandidatesWords)=>{
   Promise.all(requests).then(response=>{
     for(let word=0;word<response.length;word++){
       if(response[word]!=undefined){
-        let currentWord={word:words[word],groups:[],ref:""};
+        let currentWord={word:words[word],groups:[],ref:"",isExistant:true};
         currentWord.ref = response[word].data[0].sourceUrls[0];
         for(let wordWithOneMeaning=0;wordWithOneMeaning<response[word].data.length;wordWithOneMeaning++){
           for(let meanings=0;meanings<response[word].data[wordWithOneMeaning].meanings.length;meanings++){
@@ -24,12 +24,12 @@ const checkExistenceOfWords=(words,setCandidatesWords)=>{
             currentWord.groups.push(group);
           }
         }
-        sortedWords.existant.push(currentWord);
+        sortedWords.push(currentWord);
       }else{
-        sortedWords.nonExistant.push(words[word]);
+        sortedWords.push({word:words[word],isExistant:false});
       }
     }
-    return setCandidatesWords( sortedWords);
+    return setCandidatesWords(sortedWords);
   });
 }
 export default checkExistenceOfWords;

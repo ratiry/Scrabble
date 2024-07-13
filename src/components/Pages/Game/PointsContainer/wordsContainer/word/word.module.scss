@@ -1,0 +1,19 @@
+.word{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-evenly;
+  width:100%;
+  a{
+    text-decoration: underline;
+    cursor:pointer;
+    color:yellow;
+  }
+  p{
+    margin:0 !important;
+  }
+  svg{
+    width:30px;
+    height:30px;
+  }
+}

@@ -129,6 +129,15 @@ const Game = () => {
         let newCells=[...cells];
         players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
         newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
+        setAvaliablePositions(
+          getAvaliableCells(
+            newCells,
+            widthAndLengthOfBoard,
+            0,
+            [],
+            candidateCellForCandidateLetter
+          )
+        );
         setPlayers(players_copy);
         setCells(newCells);
         
@@ -139,23 +148,21 @@ const Game = () => {
         setCandidatesWords(words);
         setPointsOfPlayers(pointsOfPlayer_copy);
         setWords((prevArray) => prevArray.concat(words));
-
+        setAvaliablePositions(
+          getAvaliableCells(
+            cells,
+            widthAndLengthOfBoard,
+            0,
+            [],
+            candidateCellForCandidateLetter
+          )
+        );        
         
       }
-      setCandidateLetter({});
-      setAreCellsAvaliableForPicking(false);
-      setCandidateCellForCandidateLetter({});
-      // setCandidatesWords([]);
       setCandidatesForMove([]);
-      setAvaliablePositions(
-        getAvaliableCells(
-          cells,
-          widthAndLengthOfBoard,
-          0,
-          [],
-          candidateCellForCandidateLetter
-        )
-      );
+      setCandidateLetter({});
+      setCandidateCellForCandidateLetter({});
+      setAreCellsAvaliableForPicking(false);
     }
   },[candidatesWords])
 

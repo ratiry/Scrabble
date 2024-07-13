@@ -3,8 +3,9 @@ import classes from "./PointsContainer.module.scss";
 const PointsContainer=(props)=>{
   return (
     <div className={classes.container}>
-      <WordsContainer words={props.candidatesWords !=undefined ? props.candidatesWords : []} />
-      <WordsContainer words={props.words !=undefined ? props.words : []}/>
+      
+      <WordsContainer name={"current move words"} words={props.candidatesWords !=undefined ? props.candidatesWords : []} />
+      <WordsContainer name={"used words"} words={props.words !=undefined ? props.words : []}/>
     </div>
   );
 }

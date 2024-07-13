@@ -62,7 +62,7 @@ export const Board = {
   102: { multiply: 2, object: "letter", position: 102 },
   105: { multiply: 3, object: "word", position: 105 },
   108: { multiply: 2, object: "letter", position: 108 },
-  112: { object: "star", position:112 },
+  112: { object: "star", position: 112 },
   116: { multiply: 2, object: "letter", position: 116 },
   119: { multiply: 3, object: "word", position: 119 },
   122: { multiply: 2, object: "letter", position: 122 },

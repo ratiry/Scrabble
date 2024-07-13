@@ -18,9 +18,10 @@ import checkExistenceOfWords from './../../Helpers/checkingExistenceOfWords';
 import P from "../../Common/Typography/P/P";
 import PointsContainer from "./PointsContainer/PointsContainer";
 import countPoints from "../../Helpers/countPoints";
+import Leaders from "./Leaders/Leaders";
 const Game = () => {
   let location = useLocation();
-  const ammountOfPlayers = location.state.ammountOfPlayers;
+  const ammountOfPlayers = Number(location.state.ammountOfPlayers);
   const [players, setPlayers] = useState([]);
   const [stock, setStock] = useState([]);
   const [words, setWords] = useState([]); //used words 1 word would be like this : { word:"" positions:[letter : number on board],}
@@ -38,6 +39,7 @@ const Game = () => {
   const [cells, setCells] = useState(Array(widthAndLengthOfBoard ** 2).fill(false));
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
   const [candidatesWords,setCandidatesWords]=useState(undefined);
+  const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     setCandidateCellForCandidateLetter(cell);
   };
@@ -132,8 +134,12 @@ const Game = () => {
         
       }else{
         const [points,words]=countPoints(candidatesWords,candidatesForMove);
-        debugger;
+        const pointsOfPlayer_copy=[...pointsOfPlayers];
+        pointsOfPlayer_copy[turn] = pointsOfPlayer_copy[turn]+points;
         setCandidatesWords(words);
+        setPointsOfPlayers(pointsOfPlayer_copy);
+        setWords((prevArray) => prevArray.concat(words));
+
         
       }
       setCandidateLetter({});
@@ -161,7 +167,7 @@ const Game = () => {
         id={1}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
-      <div><P>leaders</P> </div>
+      <Leaders points={pointsOfPlayers}/>
       <Player
         letters={players[2]}
         id={2}

@@ -39,4 +39,10 @@ let generateAndDestributeStock=(letters,ammountOfPlayers,lettersPerPerson)=>{
   [stock,word]= pickStartingWord(stock);
   return [stock,players,word];
 }
+export let refillPlayersStock=(playersLetters,stock,lettersPerPerson)=>{
+  const playersLetters_copy=[...playersLetters];
+  let stock_copy=[...stock];
+  stock_copy= stock_copy.concat(playersLetters_copy);
+  return destributeStock(stock_copy,1,lettersPerPerson)
+}
 export default generateAndDestributeStock;

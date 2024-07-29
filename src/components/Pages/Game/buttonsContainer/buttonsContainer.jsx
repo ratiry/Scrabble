@@ -2,14 +2,11 @@ import { ButtonWithText } from "../../../Common/Buttons/Buttons"
 
 const ButtonsContainer=(props)=>{
 
-  if (props.shouldShowEndMoveButton) {
-    return (
-      <div>
-        <ButtonWithText onClick={()=>{return props.EndMoveButtonOnClick()}}>End move</ButtonWithText>
-      </div>
-    );
-  }else{
-    return <div></div>;
-  }
+  return(
+    <div>
+      {props.shouldShowDiscardButton ? <ButtonWithText onClick={()=>{return props.discardButtonOnClick()}}>discard letters</ButtonWithText> : "" }
+      {props.shouldShowEndMoveButton ?<ButtonWithText onClick={()=>{return props.EndMoveButtonOnClick()}}>End move</ButtonWithText>: ""}
+    </div>
+  )
 }
 export default ButtonsContainer;

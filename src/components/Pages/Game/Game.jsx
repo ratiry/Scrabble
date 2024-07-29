@@ -5,7 +5,7 @@ import Playfield from "./Playfield/Playfield";
 import { useEffect, useState } from "react";
 import { LettersPerPerson } from "../../../Source/Data";
 import { Letters } from "../../../Source/Data";
-import generateAndDestributeStock from "./../../Helpers/generateAndDestributeStock";
+import generateAndDestributeStock, { refillPlayersStock } from "./../../Helpers/generateAndDestributeStock";
 import { widthAndLengthOfBoard } from "../../../Source/Data";
 import ButtonsContainer from "./buttonsContainer/buttonsContainer";
 import changingTurns from "../../Helpers/changingTurns";
@@ -19,6 +19,7 @@ import P from "../../Common/Typography/P/P";
 import PointsContainer from "./PointsContainer/PointsContainer";
 import countPoints from "../../Helpers/countPoints";
 import Leaders from "./Leaders/Leaders";
+
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = Number(location.state.ammountOfPlayers);
@@ -38,6 +39,7 @@ const Game = () => {
   const [areCellsAvaliableForPicking, setAreCellsAvaliableForPicking] = useState(false);
   const [cells, setCells] = useState(Array(widthAndLengthOfBoard ** 2).fill(false));
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
+  const [shouldShowDiscardButton,setShouldShowDiscardButton]=useState(false);
   const [candidatesWords,setCandidatesWords]=useState(undefined);
   const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
@@ -52,7 +54,16 @@ const Game = () => {
     const sortedWords=checkExistenceOfWords(words,setCandidatesWords);
     setShouldShowEndMoveButton(false);
   };
-  
+  const discardButtonOnClick=()=>{
+    const [newStock,newLettersOfPlayer]=refillPlayersStock(players[0],stock,LettersPerPerson);
+    const players_copy=[...players];
+    players_copy[0]=newLettersOfPlayer[0];
+    setPlayers(players_copy);
+    setStock(newStock);
+    setShouldShowDiscardButton(false);
+    setIsPlayersMoveActual(false);
+    setTurn(changingTurns(ammountOfPlayers,turn));
+  }
   useEffect(() => {
     let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
     setStock(stock);
@@ -83,6 +94,7 @@ const Game = () => {
   useEffect(() => {
     if (isPlayersMoveActual) {
       setAreLettersAvaliableForPicking(true);
+      setShouldShowDiscardButton(true);
     }
   }, [isPlayersMoveActual]);
   useEffect(() => {
@@ -114,6 +126,7 @@ const Game = () => {
           candidateCellForCandidateLetter
         )
       );
+      setShouldShowDiscardButton(false);
       setPlayers(newPlayers);
       setCells(newCells);
       setCandidateLetter({});
@@ -195,9 +208,10 @@ const Game = () => {
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
       <ButtonsContainer
+        discardButtonOnClick={discardButtonOnClick}
         shouldShowEndMoveButton={shouldShowEndMoveButton}
         EndMoveButtonOnClick={EndMoveButtonOnClick}
-        setShouldShowEndMoveButton={setShouldShowEndMoveButton}
+        shouldShowDiscardButton={shouldShowDiscardButton}
       />
       <Player
         setCandidateLetterOnClick={setCandidateLetterOnClick}

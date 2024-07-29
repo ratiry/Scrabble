@@ -1,4 +1,4 @@
-import WordsContainer from "./WordsContainer/WordsContainer";
+import WordsContainer from "./wordsContainer/WordsContainer";
 import classes from "./PointsContainer.module.scss";
 const PointsContainer=(props)=>{
   return (

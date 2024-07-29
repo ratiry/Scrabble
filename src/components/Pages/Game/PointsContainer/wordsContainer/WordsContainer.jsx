@@ -1,5 +1,5 @@
 import H from "../../../../Common/Typography/Headlines/H.jsx";
-import Word from "./Word/Word.jsx";
+import Word from "./word/Word.jsx";
 import classes from "./wordsContainer.module.scss";
 const WordsContainer=(props)=>{
   const wordsHtml=props.words.map((word)=> <Word word={word}/>)

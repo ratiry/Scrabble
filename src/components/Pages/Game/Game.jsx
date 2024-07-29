@@ -19,6 +19,7 @@ import P from "../../Common/Typography/P/P";
 import PointsContainer from "./PointsContainer/PointsContainer";
 import countPoints from "../../Helpers/countPoints";
 import Leaders from "./Leaders/Leaders";
+import AlphabetContainer from "./alphabetContainer/AplhabetContainer";
 
 const Game = () => {
   let location = useLocation();
@@ -40,14 +41,28 @@ const Game = () => {
   const [shouldShowEndMoveButton, setShouldShowEndMoveButton] = useState(false);
   const [shouldShowDiscardButton,setShouldShowDiscardButton]=useState(false);
   const [candidatesWords,setCandidatesWords]=useState(undefined);
+  const [shouldShowAlphabet,setShouldShowAlphabet]=useState(false);
+  const [candidateCellCopy,setCandidateCellCopy]=useState({});
   const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
-    setCandidateCellForCandidateLetter(cell);
+    if(candidateLetter.letter==""){
+      setShouldShowAlphabet(true);
+      setCandidateCellCopy(cell);
+    }else{
+      setCandidateCellForCandidateLetter(cell);
+      setShouldShowAlphabet(false);
+    }
   };
   const setCandidateLetterOnClick = (letter) => {
     setCandidateLetter(letter);
     setAreCellsAvaliableForPicking(true);
   };
+  const pickValueForBlankOnClick=(letter)=>{
+    setCandidateLetter(letter);
+    setCandidateCellForCandidateLetter(candidateCellCopy);
+    setCandidateCellCopy({});
+    setShouldShowAlphabet(false);
+  }
   const EndMoveButtonOnClick = () => {
     const words = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
     const sortedWords=checkExistenceOfWords(words,setCandidatesWords);
@@ -90,6 +105,7 @@ const Game = () => {
       (candidateCellForCandidateLetter.position != undefined) &
       (candidateLetter.letter != undefined)
     ) {
+
       setCandidatesForMove((array) => [
         ...array,
         {
@@ -209,7 +225,8 @@ const Game = () => {
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
 
-      <div><P>results</P> </div>
+      {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
+
     </div>
   );
 };

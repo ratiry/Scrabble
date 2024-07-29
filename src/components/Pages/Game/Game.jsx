@@ -64,9 +64,23 @@ const Game = () => {
     setShouldShowAlphabet(false);
   }
   const EndMoveButtonOnClick = () => {
-    const words = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
-    const sortedWords=checkExistenceOfWords(words,setCandidatesWords);
-    setShouldShowEndMoveButton(false);
+    const wordsOfMove = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
+    if(words.length==0 & wordsOfMove.length==0){
+        const players_copy=[...players];
+        let newCells=[...cells];
+        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
+        newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
+        setPlayers(players_copy);
+        setCells(newCells);
+        setAvaliablePositions([(widthAndLengthOfBoard ** 2 - 1) / 2]);
+        setCandidatesForMove([]);
+        setCandidateLetter({});
+        setCandidateCellForCandidateLetter({});
+    }else{
+      const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords);
+      setShouldShowEndMoveButton(false);
+    }
+
   };
   const discardButtonOnClick=()=>{
     const [newStock,newLettersOfPlayer]=refillPlayersStock(players[0],stock,LettersPerPerson);

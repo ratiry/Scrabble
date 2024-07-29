@@ -26,7 +26,6 @@ const Game = () => {
   const [players, setPlayers] = useState([]);
   const [stock, setStock] = useState([]);
   const [words, setWords] = useState([]); //used words 1 word would be like this : { word:"" positions:[letter : number on board],}
-  const [theFirstWord, setTheFirstWord] = useState("");
   const [avaliablePositions, setAvaliablePositions] = useState([
     (widthAndLengthOfBoard ** 2 - 1) / 2,
   ]);
@@ -65,22 +64,11 @@ const Game = () => {
     setTurn(changingTurns(ammountOfPlayers,turn));
   }
   useEffect(() => {
-    let [stock, players, word] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
+    let [stock, players] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
     setStock(stock);
-    let [newStock,newCells]=placingLetter(stock,stock[stock.length-1],(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2,cells);
-    setAvaliablePositions(
-      getAvaliableCells(
-        newCells,
-        widthAndLengthOfBoard,
-        candidatesForMove.length,
-        candidatesForMove,
-        candidateCellForCandidateLetter
-      )
-    );
-    setStock(newStock);
-    setCells(newCells);
+    setStock(stock);
+    setCells(cells);
     setPlayers(players);
-    setTheFirstWord(word);
     setTurn(0);
   }, []);
   useEffect(() => {

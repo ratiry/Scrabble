@@ -22,22 +22,11 @@ let destributeStock=(stock,ammountOfPlayers,lettersPerPerson)=>{
   }
   return [shuffledStock,players]
 }
-let pickStartingWord=(stock)=>{
-  let stock_copy=[...stock];
-  let theFirstLetter=stock_copy[stock_copy.length-1].letter;
-  stock_copy.pop();
-  let theSecondLetter = stock_copy[stock_copy.length - 1].letter;
-  stock_copy.pop();
-  let word=theFirstLetter+theSecondLetter;
-  return [stock_copy,word];
-}
 let generateAndDestributeStock=(letters,ammountOfPlayers,lettersPerPerson)=>{
   let players=[];
-  let word="";
   let stock=generateStock(letters);
   [stock,players]=destributeStock(stock,ammountOfPlayers,lettersPerPerson);
-  [stock,word]= pickStartingWord(stock);
-  return [stock,players,word];
+  return [stock,players];
 }
 export let refillPlayersStock=(playersLetters,stock,lettersPerPerson)=>{
   const playersLetters_copy=[...playersLetters];

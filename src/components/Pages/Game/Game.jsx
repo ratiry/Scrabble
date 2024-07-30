@@ -75,6 +75,8 @@ const Game = () => {
         setAvaliablePositions([(widthAndLengthOfBoard ** 2 - 1) / 2]);
         setCandidatesForMove([]);
         setCandidateLetter({});
+        setShouldShowEndMoveButton(false);
+        setShouldShowDiscardButton(true);
         setCandidateCellForCandidateLetter({});
     }else{
       const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords);
@@ -83,14 +85,19 @@ const Game = () => {
 
   };
   const discardButtonOnClick=()=>{
-    const [newStock,newLettersOfPlayer]=refillPlayersStock(players[0],stock,LettersPerPerson);
+    const [newStock,newLettersOfPlayer]=refillPlayersStock(players[0],stock,players[0].length);
     const players_copy=[...players];
     players_copy[0]=newLettersOfPlayer[0];
     setPlayers(players_copy);
     setStock(newStock);
     setShouldShowDiscardButton(false);
-    setIsPlayersMoveActual(false);
+    setAreLettersAvaliableForPicking(false);
     setTurn(changingTurns(ammountOfPlayers,turn));
+  }
+  const skipButtonOnClick=()=>{
+    setAreLettersAvaliableForPicking(false);
+    setTurn(changingTurns(ammountOfPlayers,turn));
+    setShouldShowDiscardButton(false);
   }
   useEffect(() => {
     let [stock, players] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
@@ -105,6 +112,7 @@ const Game = () => {
       if (turn == 0) {
         setIsPlayersMoveActual(true);
       } else {
+        debugger;
       }
     }
   }, [turn]);
@@ -192,7 +200,8 @@ const Game = () => {
             candidateCellForCandidateLetter
           )
         );        
-        
+        setAreLettersAvaliableForPicking(false);
+        setTurn(changingTurns(ammountOfPlayers,turn));
       }
       setCandidatesForMove([]);
       setCandidateLetter({});
@@ -234,6 +243,7 @@ const Game = () => {
         shouldShowEndMoveButton={shouldShowEndMoveButton}
         EndMoveButtonOnClick={EndMoveButtonOnClick}
         shouldShowDiscardButton={shouldShowDiscardButton}
+        skipButtonOnClick={skipButtonOnClick}
       />
       <Player
         setCandidateLetterOnClick={setCandidateLetterOnClick}

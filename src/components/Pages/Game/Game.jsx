@@ -68,7 +68,7 @@ const Game = () => {
     if(words.length==0 & wordsOfMove.length==0){
         const players_copy=[...players];
         let newCells=[...cells];
-        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
+        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter.value==0 ? {letter:"",value:0}: candidate.letter));
         newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
         setPlayers(players_copy);
         setCells(newCells);
@@ -158,17 +158,21 @@ const Game = () => {
       if(candidatesWords.find(word=>word.isExistant==false)){
         const players_copy=[...players];
         let newCells=[...cells];
-        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter));
+        players_copy[turn]=players_copy[turn].concat( candidatesForMove.map(candidate=>candidate.letter.value==0 ? {letter:"",value:0}: candidate.letter));
         newCells= newCells.map((cell,index)=>candidatesForMove.find(candidate=>candidate.position==index) ? false : cell);
-        setAvaliablePositions(
-          getAvaliableCells(
-            newCells,
-            widthAndLengthOfBoard,
-            0,
-            [],
-            candidateCellForCandidateLetter
-          )
-        );
+        if(words.length==0){
+          setAvaliablePositions([(widthAndLengthOfBoard ** 2 - 1) / 2]);
+        }else{
+          setAvaliablePositions(
+            getAvaliableCells(
+              newCells,
+              widthAndLengthOfBoard,
+              0,
+              [],
+              candidateCellForCandidateLetter
+            )
+          );
+        }
         setPlayers(players_copy);
         setCells(newCells);
         

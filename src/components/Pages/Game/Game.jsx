@@ -20,6 +20,7 @@ import PointsContainer from "./PointsContainer/PointsContainer";
 import countPoints from "../../Helpers/countPoints";
 import Leaders from "./Leaders/Leaders";
 import AlphabetContainer from "./alphabetContainer/AplhabetContainer";
+import constructRequests from "../../Helpers/constructRequests";
 
 const Game = () => {
   let location = useLocation();
@@ -44,6 +45,7 @@ const Game = () => {
   const [shouldShowAlphabet,setShouldShowAlphabet]=useState(false);
   const [candidateCellCopy,setCandidateCellCopy]=useState({});
   const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
+  
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
       setShouldShowAlphabet(true);
@@ -112,7 +114,8 @@ const Game = () => {
       if (turn == 0) {
         setIsPlayersMoveActual(true);
       } else {
-        debugger;
+        // let a=constructRequests(words,cells,widthAndLengthOfBoard);
+        // debugger;
       }
     }
   }, [turn]);
@@ -163,6 +166,8 @@ const Game = () => {
   }, [candidateCellForCandidateLetter]);
   useEffect(()=>{
     if(candidatesWords!=undefined & candidatesForMove.length>0){
+      let a=constructRequests(words.concat(candidatesWords),cells,widthAndLengthOfBoard);
+      debugger;
       if(candidatesWords.find(word=>word.isExistant==false)){
         const players_copy=[...players];
         let newCells=[...cells];
@@ -185,12 +190,12 @@ const Game = () => {
         setCells(newCells);
         
       }else{
-        const [points,words]=countPoints(candidatesWords,candidatesForMove);
+        const [points,wordsInMove]=countPoints(candidatesWords,candidatesForMove);
         const pointsOfPlayer_copy=[...pointsOfPlayers];
         pointsOfPlayer_copy[turn] = pointsOfPlayer_copy[turn]+points;
-        setCandidatesWords(words);
+        setCandidatesWords(wordsInMove);
         setPointsOfPlayers(pointsOfPlayer_copy);
-        setWords((prevArray) => prevArray.concat(words));
+        setWords((prevArray) => prevArray.concat(wordsInMove));
         setAvaliablePositions(
           getAvaliableCells(
             cells,
@@ -200,9 +205,11 @@ const Game = () => {
             candidateCellForCandidateLetter
           )
         );        
-        setAreLettersAvaliableForPicking(false);
-        setTurn(changingTurns(ammountOfPlayers,turn));
+        // setAreLettersAvaliableForPicking(false);
+        // setTurn(changingTurns(ammountOfPlayers,turn));
+
       }
+
       setCandidatesForMove([]);
       setCandidateLetter({});
       setCandidateCellForCandidateLetter({});

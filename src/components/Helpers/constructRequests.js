@@ -34,7 +34,7 @@ const backwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
             availablePositions.push(i);
             encounteredWord=""; 
         }else{
-            encounteredWord+=cells[i].letter;
+            encounteredWord=cells[i].letter.concat(encounteredWord);
             for(let j=0;j<availablePositions.length-1;j++){
                 requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
             }
@@ -118,7 +118,6 @@ const downwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
             newIntialWord=cells[i].letter.concat(newIntialWord);
         }   
     }
-    //check the other side
     const requests=[{request:newIntialWord,positions:[]}];
     for(let i=newIndex;i<cells.length;i=i+widthAndLengthOfBoard){
         if(!cells[i]){
@@ -169,7 +168,6 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
             newIntialWord=newIntialWord.concat(cells[i].letter);
         }  
     }
-    //check the other side
     const requests=[{request:newIntialWord,positions:[]}];
     for(let i=newIndex;i>-1;i=i-widthAndLengthOfBoard){
         if(!cells[i]){
@@ -184,7 +182,7 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
             }
             encounteredWord=""; 
         }else{
-            encounteredWord+=cells[i].letter;
+            encounteredWord=cells[i].letter.concat(encounteredWord);
             for(let j=0;j<availablePositions.length-1;j++){
                 requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
             }
@@ -227,8 +225,15 @@ const constructRequests=(words,cells,widthAndLengthOfBoard)=>{
     //upwards
     //downwards
     }
+    // myArr.filter((obj1, i, arr) => 
+    //     arr.findIndex(obj2 => (obj2.id === obj1.id)) === i
+    //   )
+    requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.positions.length!=0);
+    requestsOfWords=requestsOfWords.filter((obj1, i, arr) => 
+             arr.findIndex(obj2 => (obj2.request.concat( obj2.positions.join("_")) ===  obj1.request.concat( obj1.positions.join("_")))) === i
+           )
     debugger;
-    return requestsOfWords.filter(requestOfWords=>requestOfWords.positions.length!=0);
+    return  requestsOfWords;
 }
 
 export default constructRequests;

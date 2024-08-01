@@ -153,7 +153,6 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
     let newIndex=index;
     let newIntialWord=initialWord;
     if(initialWord.length==1){
-        debugger;
         for(let i=index;i>-1;i=i-widthAndLengthOfBoard){
             if(!cells[i]){
                 break;

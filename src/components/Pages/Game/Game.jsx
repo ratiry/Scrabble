@@ -21,6 +21,7 @@ import countPoints from "../../Helpers/countPoints";
 import Leaders from "./Leaders/Leaders";
 import AlphabetContainer from "./alphabetContainer/AplhabetContainer";
 import constructRequests from "../../Helpers/constructRequests";
+import choosingWordForComputerMove from "../../Helpers/choosingWordForComputerMove";
 
 const Game = () => {
   let location = useLocation();
@@ -45,7 +46,9 @@ const Game = () => {
   const [shouldShowAlphabet,setShouldShowAlphabet]=useState(false);
   const [candidateCellCopy,setCandidateCellCopy]=useState({});
   const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
-  
+  const [requestsForFindingWords,setRequestsForFindingWords]=useState([]);
+  const [indexOfRequestForFindingWords,setIndexOfRequestForFindingWords]=useState(0);
+  const [foundWord,setFoundWord]=useState({positions:[],word:""});
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
       setShouldShowAlphabet(true);
@@ -114,8 +117,10 @@ const Game = () => {
       if (turn == 0) {
         setIsPlayersMoveActual(true);
       } else {
-        // let a=constructRequests(words,cells,widthAndLengthOfBoard);
-        // debugger;
+        const requests=constructRequests(words,cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
+        setRequestsForFindingWords(requests);
+        choosingWordForComputerMove(requests[0],players[turn],cells,words,setFoundWord,Letters[location.state.language]);
+        debugger;
       }
     }
   }, [turn]);
@@ -166,8 +171,6 @@ const Game = () => {
   }, [candidateCellForCandidateLetter]);
   useEffect(()=>{
     if(candidatesWords!=undefined & candidatesForMove.length>0){
-      let a=constructRequests(words.concat(candidatesWords),cells,widthAndLengthOfBoard);
-      debugger;
       if(candidatesWords.find(word=>word.isExistant==false)){
         const players_copy=[...players];
         let newCells=[...cells];
@@ -205,8 +208,8 @@ const Game = () => {
             candidateCellForCandidateLetter
           )
         );        
-        // setAreLettersAvaliableForPicking(false);
-        // setTurn(changingTurns(ammountOfPlayers,turn));
+        setAreLettersAvaliableForPicking(false);
+        setTurn(changingTurns(ammountOfPlayers,turn));
 
       }
 

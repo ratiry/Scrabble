@@ -15,8 +15,8 @@ const backwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
     const requests=[{request:newIntialWord,positions:[]}];
     for(let i=newIndex;(i+1)%widthAndLengthOfBoard!=0;i--){
         if(!cells[i]){
-            if(encounteredWord!=""){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions)})
+            if(encounteredWord!=""){//the availble position in the mid bug
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+encounteredWord.length+1].concat(requests[requests.length-1].positions)})
             }
             if(i%widthAndLengthOfBoard==0){
                 for(let j=0;j<availablePositions.length;j++){
@@ -58,8 +58,8 @@ const onwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
     for(let i=newIndex;i%widthAndLengthOfBoard!=0;i++){
         if(!cells[i]){
             availablePositions.push(i);
-            if(encounteredWord!=""){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]])})
+            if(encounteredWord!=""){//the availble position in the mid bug
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-encounteredWord.length-1])})
             }
             if((i+1)%widthAndLengthOfBoard==0){
                 for(let j=0;j<availablePositions.length;j++){// requests[requests.length-1].request.concat("*") //requests[requests.length-1].positions.concat([availablePositions[j]])
@@ -100,8 +100,8 @@ const downwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
     for(let i=newIndex;i<cells.length;i=i+widthAndLengthOfBoard){
         if(!cells[i]){
             availablePositions.push(i);
-            if(encounteredWord!=""){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]])})
+            if(encounteredWord!=""){//the availble position in the mid bug
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-(encounteredWord.length+1)*widthAndLengthOfBoard])})
             }
             if((i+widthAndLengthOfBoard)>cells.length){
                 for(let j=0;j<availablePositions.length;j++){// requests[requests.length-1].request.concat("*") //requests[requests.length-1].positions.concat([availablePositions[j]])
@@ -142,8 +142,8 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard)=>{
     for(let i=newIndex;i>-1;i=i-widthAndLengthOfBoard){
         if(!cells[i]){
             availablePositions.push(i);
-            if(encounteredWord!=""){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions)})
+            if(encounteredWord!=""){//the availble position in the mid bug
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+(encounteredWord.length+1)*widthAndLengthOfBoard].concat(requests[requests.length-1].positions)})
             }
             if(i-widthAndLengthOfBoard<0){
                 for(let j=0;j<availablePositions.length;j++){

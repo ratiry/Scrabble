@@ -10,7 +10,6 @@ const instance = axios.create({
 });
 export const findWords_API={
   findWords(request){
-    debugger;
     const words = instance.get(`/word-finder-plus/${request.request}/*/*/10`);
     return words;
   }

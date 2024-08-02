@@ -228,10 +228,11 @@ const constructRequests=(words,cells,widthAndLengthOfBoard)=>{
     //     arr.findIndex(obj2 => (obj2.id === obj1.id)) === i
     //   )
     requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.positions.length!=0);
+    debugger;
     requestsOfWords=requestsOfWords.filter((obj1, i, arr) => 
              arr.findIndex(obj2 => (obj2.request.concat( obj2.positions.join("_")) ===  obj1.request.concat( obj1.positions.join("_")))) === i
            )
-    debugger;
+    
     return  requestsOfWords;
 }
 

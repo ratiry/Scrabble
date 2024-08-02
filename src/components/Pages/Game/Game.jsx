@@ -22,6 +22,7 @@ import Leaders from "./Leaders/Leaders";
 import AlphabetContainer from "./alphabetContainer/AplhabetContainer";
 import constructRequests from "../../Helpers/constructRequests";
 import choosingWordForComputerMove from "../../Helpers/choosingWordForComputerMove";
+import placingWordOnBoard from "../../Helpers/placingWordOnBoard";
 
 const Game = () => {
   let location = useLocation();
@@ -48,7 +49,9 @@ const Game = () => {
   const [pointsOfPlayers,setPointsOfPlayers]=useState(Array(ammountOfPlayers).fill(0));
   const [requestsForFindingWords,setRequestsForFindingWords]=useState([]);
   const [indexOfRequestForFindingWords,setIndexOfRequestForFindingWords]=useState(0);
-  const [foundWord,setFoundWord]=useState({positions:[],word:""});
+  const [indexOfFoundWordOfRequest,setIndexOfFoundWordOfRequest]=useState(0);
+  const [madeWordsByComputerPlayer,setMadeWordsByComputerPlayer]=useState([]);
+  const [foundWords,setFoundWords]=useState([]);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
       setShouldShowAlphabet(true);
@@ -115,17 +118,82 @@ const Game = () => {
   useEffect(() => {
     if (turn > -1) {
       if (turn == 0) {
+        debugger;
         setIsPlayersMoveActual(true);
       } else {
+        debugger;
         const requests=constructRequests(words,cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
         setRequestsForFindingWords(requests);
-        choosingWordForComputerMove(requests[0],players[turn],cells,words,setFoundWord,Letters[location.state.language]);
-        debugger;
       }
     }
   }, [turn]);
+  useEffect(()=>{
+    if(requestsForFindingWords.length>0){
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length){
+        debugger;
+        choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
+      }else{
+        //need to discard letters
+      }
+    }
+  },[indexOfRequestForFindingWords,requestsForFindingWords])
+  useEffect(()=>{
+    if(foundWords.length>0){
+      const newCells=[...cells];
+      for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
+        newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
+      }
+      debugger;
+      const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
+      checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
+    }else if(requestsForFindingWords.length>0){
+      debugger;
+      setIndexOfFoundWordOfRequest(index=>index+1);
+    }
+  },[indexOfFoundWordOfRequest,foundWords])
+
+  useEffect(()=>{
+    if(madeWordsByComputerPlayer.length>0){
+      if(madeWordsByComputerPlayer.find(word=>word.isExistant==false)){
+        if(indexOfFoundWordOfRequest==foundWords.length){
+          setIndexOfFoundWordOfRequest(0);
+          setIndexOfRequestForFindingWords(index=>index+1);
+          setFoundWords([]);
+        }else{
+          setIndexOfFoundWordOfRequest(index=>index+1);          
+        }
+        setMadeWordsByComputerPlayer([]);
+      }else{
+        const newPlayers=[...players];
+        const newPointsOfPlayers=[...pointsOfPlayers];
+        const [newCells,newLettersOfPlayer]= placingWordOnBoard(foundWords[indexOfFoundWordOfRequest],cells,players[turn]);
+        newPlayers[turn]=newLettersOfPlayer;
+        const [points,wordsInMove]=countPoints(madeWordsByComputerPlayer,foundWords);
+        newPointsOfPlayers[turn]=newPointsOfPlayers[turn]+points;
+        setPointsOfPlayers(newPointsOfPlayers);
+        setPlayers(newPlayers);
+        setWords(prevArray=>prevArray.concat(wordsInMove));
+        setCells(newCells);
+        setFoundWords([]);
+        setMadeWordsByComputerPlayer([]);
+        setIndexOfFoundWordOfRequest(0);
+        setIndexOfRequestForFindingWords(0);
+        setRequestsForFindingWords([]);
+        setTurn(changingTurns(ammountOfPlayers,turn));
+        setAvaliablePositions(
+          getAvaliableCells(
+            newCells,
+            widthAndLengthOfBoard,
+            0
+          )
+        );
+        debugger;
+      }
+    }
+  },[madeWordsByComputerPlayer])
   useEffect(() => {
     if (isPlayersMoveActual) {
+      debugger;
       setAreLettersAvaliableForPicking(true);
       setShouldShowDiscardButton(true);
     }
@@ -208,11 +276,11 @@ const Game = () => {
             candidateCellForCandidateLetter
           )
         );        
+        setIsPlayersMoveActual(false);
         setAreLettersAvaliableForPicking(false);
         setTurn(changingTurns(ammountOfPlayers,turn));
 
       }
-
       setCandidatesForMove([]);
       setCandidateLetter({});
       setCandidateCellForCandidateLetter({});

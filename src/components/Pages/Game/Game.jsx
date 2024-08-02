@@ -23,6 +23,7 @@ import AlphabetContainer from "./alphabetContainer/AplhabetContainer";
 import constructRequests from "../../Helpers/constructRequests";
 import choosingWordForComputerMove from "../../Helpers/choosingWordForComputerMove";
 import placingWordOnBoard from "../../Helpers/placingWordOnBoard";
+import deleteSubWords from "../../Helpers/deleteSubWords";
 
 const Game = () => {
   let location = useLocation();
@@ -122,7 +123,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         debugger;
-        const requests=constructRequests(words,cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
+        const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
         setRequestsForFindingWords(requests);
       }
     }

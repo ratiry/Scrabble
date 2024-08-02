@@ -44,13 +44,13 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
     horizontalWord.tips.horizontal.push(horizontalTip2);
     if(verticalTip2-verticalTip1!=2*widthAndLengthOfBoard){
       for (let j = verticalTip1+widthAndLengthOfBoard; j < verticalTip2; j = j + widthAndLengthOfBoard) {
-        verticalWord.letters.push({ position: Board[j],letter:cells[j] });
+        verticalWord.letters.push({ position: Board[j],letter:cells[j],id:j });
         verticalWord.word = verticalWord.word+cells[j].letter;
       }
     }
     if(horizontalTip2-horizontalTip1!=2){
       for (let j = horizontalTip1+1; j < horizontalTip2; j = j + 1) {
-        horizontalWord.letters.push({ position: Board[j],letter:cells[j] });
+        horizontalWord.letters.push({ position: Board[j],letter:cells[j],id:j });
         horizontalWord.word = horizontalWord.word+cells[j].letter;
       }
     }

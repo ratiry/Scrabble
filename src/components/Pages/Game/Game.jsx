@@ -149,7 +149,7 @@ const Game = () => {
       checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
     }else if(requestsForFindingWords.length>0){
       debugger;
-      setIndexOfFoundWordOfRequest(index=>index+1);
+      setRequestsForFindingWords(index=>index+1);
     }
   },[indexOfFoundWordOfRequest,foundWords])
 

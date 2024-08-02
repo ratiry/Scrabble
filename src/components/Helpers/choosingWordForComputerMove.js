@@ -9,13 +9,15 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
     }));
     Promise.all(wordsFound).then(response=>{
         debugger;
-        if(response[0]==undefined){
+        if(response[0].data=="No Matches"){
+            debugger;
             return setFoundWords([]);
         }
         const foundWords=response[0].data.wordList.words.sort(sort_by("score",true,parseInt));//add  levels based on sorting
         const possibleMoves=[];
         for(let i=0;i<foundWords.length;i++){
             const neededLetters=[];
+            debugger;
             for(let j=0;j<request.request.length;j++){
                 if(request.request[j]!="*"){
                     break;

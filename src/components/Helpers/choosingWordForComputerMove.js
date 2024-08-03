@@ -16,20 +16,29 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
         const foundWords=response[0].data.wordList.words.sort(sort_by("score",true,parseInt));//add  levels based on sorting
         const possibleMoves=[];
         for(let i=0;i<foundWords.length;i++){
-            const neededLetters=[];
-            debugger;
+            let neededLetters=[];
+            let starIndex=0;
             for(let j=0;j<request.request.length;j++){
-                if(request.request[j]!="*"){
-                    break;
+                if(request.request[j]=="*"){
+                  neededLetters.push({letter: Letters.find(letter=>letter.letter== foundWords[i].word[j].toUpperCase()) , position:request.positions[starIndex]});
+                  starIndex=starIndex+1;
                 }
-                neededLetters.push({letter: Letters.find(letter=>letter.letter== foundWords[i].word[j].toUpperCase()) , position:request.positions[j]});
             }
+            neededLetters = neededLetters.filter(
+              (obj1, i, arr) =>
+                arr.findIndex(
+                  (obj2) =>
+                    obj2.position ===
+                    obj1.position
+                ) === i
+            );//bidon bug
             let neededBlanksForMove=0;
             for(let j=0;j<neededLetters.length;j++){
-                if(lettersOfPlayer.find(letter=>letter.letter==neededLetters[j].letter.letter) == undefined){//add blanks
+                if(lettersOfPlayer.filter(letter=>letter.letter==neededLetters[j].letter.letter).length < neededLetters.filter(letter=>letter.letter.letter==neededLetters[j].letter.letter).length){
                     neededBlanksForMove=neededBlanksForMove+1;
                 }
             }
+            debugger;
             if(neededBlanksForMove<=lettersOfPlayer.filter(letter=>letter.value==0).length){
                 possibleMoves.push(neededLetters);
             }

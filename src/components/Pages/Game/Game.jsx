@@ -122,8 +122,9 @@ const Game = () => {
         debugger;
         setIsPlayersMoveActual(true);
       } else {
-        debugger;
+        
         const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
+        debugger;
         setRequestsForFindingWords(requests);
       }
     }
@@ -141,15 +142,21 @@ const Game = () => {
   useEffect(()=>{
     if(foundWords.length>0){
       const newCells=[...cells];
-      for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
-        newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
-      }
       debugger;
-      const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
-      checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
+      if(indexOfFoundWordOfRequest!=foundWords.length){
+        for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
+          newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
+        }
+        debugger;
+        const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
+        checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
+      }else{
+        setFoundWords([]);
+        setIndexOfFoundWordOfRequest(0);       
+      }
     }else if(requestsForFindingWords.length>0){
       debugger;
-      setRequestsForFindingWords(index=>index+1);
+      setIndexOfRequestForFindingWords(index=>index+1);
     }
   },[indexOfFoundWordOfRequest,foundWords])
 

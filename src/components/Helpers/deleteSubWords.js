@@ -8,10 +8,10 @@ const deleteSubWords=(words)=>{
             let posOfTheSecondWord=words[j].word.letters.map(letter=>letter.id);
             if(checker(posOfTheFirstWord,posOfTheSecondWord) & posOfTheFirstWord.length>posOfTheSecondWord.length){
                 newWords[j].toDelete=true;
-                break;
             }
         }
     }
+    debugger;
     return newWords.filter(word=>!Object.hasOwn(word, 'toDelete'))
 }
 export default deleteSubWords;

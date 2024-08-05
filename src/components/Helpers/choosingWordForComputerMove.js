@@ -22,6 +22,7 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                   starIndex=starIndex+1;
                 }
             }
+            debugger;
             neededLetters = neededLetters.filter(
               (obj1, i, arr) =>
                 arr.findIndex(
@@ -29,7 +30,7 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                     obj2.position ===
                     obj1.position
                 ) === i
-            );//bidon bug
+            );
             let neededBlanksForMove=0;
             for(let j=0;j<neededLetters.length;j++){
                 if(lettersOfPlayer.filter(letter=>letter.letter==neededLetters[j].letter.letter).length < neededLetters.filter(letter=>letter.letter.letter==neededLetters[j].letter.letter).length){
@@ -40,6 +41,7 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                 possibleMoves.push(neededLetters);
             }
         }
+        debugger;
         return setFoundWords(possibleMoves);
     })
 }

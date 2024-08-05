@@ -101,10 +101,12 @@ const Game = () => {
     setStock(newStock);
     setShouldShowDiscardButton(false);
     setAreLettersAvaliableForPicking(false);
+    setIsPlayersMoveActual(false);
     setTurn(changingTurns(ammountOfPlayers,turn));
   }
   const skipButtonOnClick=()=>{
     setAreLettersAvaliableForPicking(false);
+    setIsPlayersMoveActual(false);
     setTurn(changingTurns(ammountOfPlayers,turn));
     setShouldShowDiscardButton(false);
   }
@@ -119,12 +121,10 @@ const Game = () => {
   useEffect(() => {
     if (turn > -1) {
       if (turn == 0) {
-        debugger;
         setIsPlayersMoveActual(true);
       } else {
         
         const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
-        debugger;
         setRequestsForFindingWords(requests);
       }
     }
@@ -132,7 +132,6 @@ const Game = () => {
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length){
-        debugger;
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
         //need to discard letters
@@ -142,12 +141,10 @@ const Game = () => {
   useEffect(()=>{
     if(foundWords.length>0){
       const newCells=[...cells];
-      debugger;
       if(indexOfFoundWordOfRequest!=foundWords.length){
         for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
           newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
         }
-        debugger;
         const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
         checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
       }else{
@@ -155,7 +152,6 @@ const Game = () => {
         setIndexOfFoundWordOfRequest(0);       
       }
     }else if(requestsForFindingWords.length>0){
-      debugger;
       setIndexOfRequestForFindingWords(index=>index+1);
     }
   },[indexOfFoundWordOfRequest,foundWords])
@@ -195,13 +191,11 @@ const Game = () => {
             0
           )
         );
-        debugger;
       }
     }
   },[madeWordsByComputerPlayer])
   useEffect(() => {
     if (isPlayersMoveActual) {
-      debugger;
       setAreLettersAvaliableForPicking(true);
       setShouldShowDiscardButton(true);
     }

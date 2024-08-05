@@ -57,7 +57,6 @@ const Cell=(props)=>{
           <div className={cellClasses.cell}>
             <div className={cellClasses[neededClass]}>
               <P>{multiplyerString}</P>
-              <P>{props.id}</P>
             </div>
           </div>
         );

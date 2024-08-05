@@ -4,13 +4,11 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
     let wordsFound=[];
     wordsFound.push(findWords_API.findWords(request).catch(error=>{
         if(error.response.status==404){
-            // debugger;
+            // 
         }
     }));
     Promise.all(wordsFound).then(response=>{
-        debugger;
         if(response[0].data=="No Matches"){
-            debugger;
             return setFoundWords([]);
         }
         const foundWords=response[0].data.wordList.words.sort(sort_by("score",true,parseInt));//add  levels based on sorting
@@ -38,7 +36,6 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                     neededBlanksForMove=neededBlanksForMove+1;
                 }
             }
-            debugger;
             if(neededBlanksForMove<=lettersOfPlayer.filter(letter=>letter.value==0).length){
                 possibleMoves.push(neededLetters);
             }

@@ -10,7 +10,6 @@ const placingWordOnBoard=(word,cells,lettersOfPlayer)=>{
             [newLettersOfPlayers,newCells]=placingLetter(newLettersOfPlayers,{letter:word[i].letter.letter,value:0},word[i].position,newCells);
         }
     }
-    debugger;
     return [newCells,newLettersOfPlayers];
 }
 export default placingWordOnBoard;

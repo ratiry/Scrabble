@@ -12,7 +12,6 @@ const deleteSubWords=(words)=>{
             }
         }
     }
-    debugger;
     return newWords.filter(word=>!Object.hasOwn(word, 'toDelete'))
 }
 export default deleteSubWords;

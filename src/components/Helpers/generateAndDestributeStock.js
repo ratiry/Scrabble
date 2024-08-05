@@ -1,4 +1,5 @@
 
+import { LettersPerPerson } from '../../Source/Data';
 import shuffle from './shuffle';
 const generateStock=(letters)=>{
   let stock=[];
@@ -28,7 +29,7 @@ const generateAndDestributeStock=(letters,ammountOfPlayers,lettersPerPerson)=>{
   [stock,players]=destributeStock(stock,ammountOfPlayers,lettersPerPerson);
   return [stock,players];
 }
-export const refillPlayersStock=(playersLetters,stock,lettersPerPerson)=>{
+export const refillPlayersStock=(playersLetters,stock,lettersPerPerson=LettersPerPerson)=>{
   const playersLetters_copy=[...playersLetters];
   let stock_copy=[...stock];
   // stock_copy= stock_copy.concat(playersLetters_copy);

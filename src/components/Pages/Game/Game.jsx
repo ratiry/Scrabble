@@ -83,6 +83,7 @@ const Game = () => {
   const popupOnClick=()=>{
     setShouldShowPopup(false);
     setShouldShowBingoAnimation(false);
+    setTurn(changingTurns(ammountOfPlayers, turn));
   }
   const EndMoveButtonOnClick = () => {
     const wordsOfMove = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
@@ -147,9 +148,11 @@ const Game = () => {
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length){
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
+        let newStock=[...stock];
         const newPlayers=[...players];
-        players[turn]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);
-        setPlayers(players);
+        [newStock,newPlayers[turn]]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
+        setStock(newStock);
+        setPlayers(newPlayers);
         setTurn(changingTurns(ammountOfPlayers,turn));
       }
     }
@@ -193,11 +196,15 @@ const Game = () => {
         if(newLettersOfPlayer.length==0){
           debugger;
           if(players[turn].length==LettersPerPerson){
-            //bingo
+            let newStock=[...stock];
+            let newLettersOfPlayer=[];
+            [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);//
             newPointsOfPlayers[turn] = newPointsOfPlayers[turn] + 50;
-            setTurn(changingTurns(ammountOfPlayers, turn));
+            newPlayers[turn]=newLettersOfPlayer[0];
             setShouldShowPopup(true);
+            setStock(newStock);//bingo
             setShouldShowBingoAnimation(true);
+
           }else{
             //victory
             // setWinner(turn);
@@ -298,9 +305,32 @@ const Game = () => {
         
       }else{
         const [points,wordsInMove]=countPoints(candidatesWords,candidatesForMove);
+
         const pointsOfPlayer_copy=[...pointsOfPlayers];
         pointsOfPlayer_copy[turn] = pointsOfPlayer_copy[turn]+points;
         setCandidatesWords(wordsInMove);
+        if(players[turn].length==0){
+          debugger;
+          if(candidatesForMove.length==LettersPerPerson){
+            let players_copy=[...players];
+            let newStock=[...stock];
+            debugger;
+            setShouldShowBingoAnimation(true);
+            setShouldShowPopup(true);
+            pointsOfPlayer_copy[turn]=pointsOfPlayer_copy[turn]+50;
+            let newLettersOfPlayer=[];
+            [newStock,newLettersOfPlayer]=refillPlayersStock(players_copy[turn],stock,LettersPerPerson);
+            debugger;
+            players_copy[turn]=newLettersOfPlayer[0];
+            setStock(newStock);
+            setPlayers(players_copy);
+          }else{
+            setTurn(-1);
+            //victory
+          }
+        }else{
+            setTurn(changingTurns(ammountOfPlayers, turn));
+        }
         setPointsOfPlayers(pointsOfPlayer_copy);
         setWords((prevArray) => prevArray.concat(wordsInMove));
         setAvaliablePositions(
@@ -314,7 +344,6 @@ const Game = () => {
         );        
         setIsPlayersMoveActual(false);
         setAreLettersAvaliableForPicking(false);
-        setTurn(changingTurns(ammountOfPlayers,turn));
 
       }
       setCandidatesForMove([]);

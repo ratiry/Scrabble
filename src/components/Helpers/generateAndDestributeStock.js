@@ -1,6 +1,6 @@
 
 import shuffle from './shuffle';
-let generateStock=(letters)=>{
+const generateStock=(letters)=>{
   let stock=[];
   for(let i=0;i<letters.length;i++){
     for(let j=0;j<letters[i].copies;j++){
@@ -9,7 +9,7 @@ let generateStock=(letters)=>{
   }
   return stock;
 }
-let destributeStock=(stock,ammountOfPlayers,lettersPerPerson)=>{
+const destributeStock=(stock,ammountOfPlayers,lettersPerPerson)=>{
   let shuffledStock=shuffle(stock);
   let players=[];
   for(let i=0;i<ammountOfPlayers;i++){
@@ -22,16 +22,17 @@ let destributeStock=(stock,ammountOfPlayers,lettersPerPerson)=>{
   }
   return [shuffledStock,players]
 }
-let generateAndDestributeStock=(letters,ammountOfPlayers,lettersPerPerson)=>{
+const generateAndDestributeStock=(letters,ammountOfPlayers,lettersPerPerson)=>{
   let players=[];
   let stock=generateStock(letters);
   [stock,players]=destributeStock(stock,ammountOfPlayers,lettersPerPerson);
   return [stock,players];
 }
-export let refillPlayersStock=(playersLetters,stock,lettersPerPerson)=>{
+export const refillPlayersStock=(playersLetters,stock,lettersPerPerson)=>{
   const playersLetters_copy=[...playersLetters];
   let stock_copy=[...stock];
-  stock_copy= stock_copy.concat(playersLetters_copy);
-  return destributeStock(stock_copy,1,lettersPerPerson)
+  // stock_copy= stock_copy.concat(playersLetters_copy);
+  return destributeStock(stock_copy,1,lettersPerPerson);
 }
+
 export default generateAndDestributeStock;

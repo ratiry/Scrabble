@@ -2,6 +2,7 @@ import { findWords_API } from "../../API/wordFinder"
 import sort_by from "./sort_by";
 const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,words,setFoundWords,Letters)=>{
     let wordsFound=[];
+
     wordsFound.push(findWords_API.findWords(request).catch(error=>{
         if(error.response.status==404){
             // 
@@ -22,7 +23,6 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                   starIndex=starIndex+1;
                 }
             }
-            debugger;
             neededLetters = neededLetters.filter(
               (obj1, i, arr) =>
                 arr.findIndex(
@@ -41,7 +41,6 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
                 possibleMoves.push(neededLetters);
             }
         }
-        debugger;
         return setFoundWords(possibleMoves);
     })
 }

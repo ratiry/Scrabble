@@ -94,5 +94,7 @@ export const Board = {
   221: { multiply: 2, object: "letter", position: 221 },
   224: { multiply: 3, object: "word", position: 224 },
 };
-export const LettersPerPerson=10;
+export const LettersPerPerson=3;
 export const widthAndLengthOfBoard=15;
+export const didSomebodySayBingoUrl ="https://media.tenor.com/oQBNNsF1jA8AAAAj/darklajka-wsl.gif";
+export const rainbowFire ="https://media1.giphy.com/media/JQYLvzIPHOnvuLfQQr/giphy.gif?cid=6c09b9526qmky8qxpeeerkv3fwq220imka3dt88b19afe267&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s";

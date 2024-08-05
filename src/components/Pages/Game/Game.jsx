@@ -3,7 +3,7 @@ import classes from "./Game.module.scss";
 import Player from "./player/Player";
 import Playfield from "./Playfield/Playfield";
 import { useEffect, useState } from "react";
-import { LettersPerPerson } from "../../../Source/Data";
+import { didSomebodySayBingoUrl, LettersPerPerson } from "../../../Source/Data";
 import { Letters } from "../../../Source/Data";
 import generateAndDestributeStock, { refillPlayersStock } from "./../../Helpers/generateAndDestributeStock";
 import { widthAndLengthOfBoard } from "../../../Source/Data";
@@ -24,17 +24,22 @@ import constructRequests from "../../Helpers/constructRequests";
 import choosingWordForComputerMove from "../../Helpers/choosingWordForComputerMove";
 import placingWordOnBoard from "../../Helpers/placingWordOnBoard";
 import deleteSubWords from "../../Helpers/deleteSubWords";
+import usePrevious from "../../Helpers/hooks/usePrevious";
+import Popup from "./popup/popup";
+import Bingo from "./popup/Bingo/bingo";
 
 const Game = () => {
   let location = useLocation();
   const ammountOfPlayers = Number(location.state.ammountOfPlayers);
   const [players, setPlayers] = useState([]);
+  const previousPlayers=usePrevious(players);
   const [stock, setStock] = useState([]);
   const [words, setWords] = useState([]); //used words 1 word would be like this : { word:"" positions:[letter : number on board],}
   const [avaliablePositions, setAvaliablePositions] = useState([
     (widthAndLengthOfBoard ** 2 - 1) / 2,
   ]);
   const [turn, setTurn] = useState(-1);
+  const previousTurn=usePrevious(turn);
   const [areLettersAvaliableForPicking, setAreLettersAvaliableForPicking] = useState(false);
   const [isPlayersMoveActual, setIsPlayersMoveActual] = useState(false);
   const [candidateLetter, setCandidateLetter] = useState({});
@@ -53,6 +58,9 @@ const Game = () => {
   const [indexOfFoundWordOfRequest,setIndexOfFoundWordOfRequest]=useState(0);
   const [madeWordsByComputerPlayer,setMadeWordsByComputerPlayer]=useState([]);
   const [foundWords,setFoundWords]=useState([]);
+  const [shouldShowPopup,setShouldShowPopup]=useState(false);
+  const [shouldShowBingoAnimation,setShouldShowBingoAnimation]=useState(false);
+  const [winner,setWinner]=useState(-1);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
       setShouldShowAlphabet(true);
@@ -71,6 +79,10 @@ const Game = () => {
     setCandidateCellForCandidateLetter(candidateCellCopy);
     setCandidateCellCopy({});
     setShouldShowAlphabet(false);
+  }
+  const popupOnClick=()=>{
+    setShouldShowPopup(false);
+    setShouldShowBingoAnimation(false);
   }
   const EndMoveButtonOnClick = () => {
     const wordsOfMove = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
@@ -118,6 +130,7 @@ const Game = () => {
     setPlayers(players);
     setTurn(0);
   }, []);
+  
   useEffect(() => {
     if (turn > -1) {
       if (turn == 0) {
@@ -134,7 +147,10 @@ const Game = () => {
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length){
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
-        //need to discard letters
+        const newPlayers=[...players];
+        players[turn]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);
+        setPlayers(players);
+        setTurn(changingTurns(ammountOfPlayers,turn));
       }
     }
   },[indexOfRequestForFindingWords,requestsForFindingWords])
@@ -174,6 +190,22 @@ const Game = () => {
         newPlayers[turn]=newLettersOfPlayer;
         const [points,wordsInMove]=countPoints(madeWordsByComputerPlayer,foundWords);
         newPointsOfPlayers[turn]=newPointsOfPlayers[turn]+points;
+        if(newLettersOfPlayer.length==0){
+          debugger;
+          if(players[turn].length==LettersPerPerson){
+            //bingo
+            newPointsOfPlayers[turn] = newPointsOfPlayers[turn] + 50;
+            setTurn(changingTurns(ammountOfPlayers, turn));
+            setShouldShowPopup(true);
+            setShouldShowBingoAnimation(true);
+          }else{
+            //victory
+            // setWinner(turn);
+            setTurn(-1);
+          }
+        }else{
+          setTurn(changingTurns(ammountOfPlayers, turn));
+        }
         setPointsOfPlayers(newPointsOfPlayers);
         setPlayers(newPlayers);
         setWords(prevArray=>prevArray.concat(wordsInMove));
@@ -183,7 +215,6 @@ const Game = () => {
         setIndexOfFoundWordOfRequest(0);
         setIndexOfRequestForFindingWords(0);
         setRequestsForFindingWords([]);
-        setTurn(changingTurns(ammountOfPlayers,turn));
         setAvaliablePositions(
           getAvaliableCells(
             newCells,
@@ -191,6 +222,7 @@ const Game = () => {
             0
           )
         );
+
       }
     }
   },[madeWordsByComputerPlayer])
@@ -259,6 +291,8 @@ const Game = () => {
             )
           );
         }
+        setShouldShowDiscardButton(true);
+        setShouldShowEndMoveButton(false);
         setPlayers(players_copy);
         setCells(newCells);
         
@@ -294,15 +328,19 @@ const Game = () => {
     <div className={classes.Game}>
       <PointsContainer candidatesWords={candidatesWords} words={words}/>
       <Player
+        turn={turn}
         letters={players[1]}
         id={1}
         ammountOfPlayers={ammountOfPlayers}
+        winner={winner}
       ></Player>
       <Leaders points={pointsOfPlayers}/>
       <Player
+        turn={turn}
         letters={players[2]}
         id={2}
         ammountOfPlayers={ammountOfPlayers}
+        winner={winner}
       ></Player>
 
       <Playfield
@@ -314,8 +352,10 @@ const Game = () => {
         Board={Board}
       />
       <Player
+        turn={turn}
         letters={players[3]}
         id={3}
+        winner={winner}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
       <ButtonsContainer
@@ -324,17 +364,23 @@ const Game = () => {
         EndMoveButtonOnClick={EndMoveButtonOnClick}
         shouldShowDiscardButton={shouldShowDiscardButton}
         skipButtonOnClick={skipButtonOnClick}
+        winner={winner}
       />
       <Player
+        turn={turn}
         setCandidateLetterOnClick={setCandidateLetterOnClick}
         areLettersAvaliableForPicking={areLettersAvaliableForPicking}
         letters={players[0]}
         id={0}
+        winner={winner}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
 
       {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
-
+     {shouldShowPopup?
+      <Popup onClick={popupOnClick}>
+        {shouldShowBingoAnimation?<Bingo/> : "" } 
+        </Popup>: ""} 
     </div>
   );
 };

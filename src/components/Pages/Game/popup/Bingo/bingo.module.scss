@@ -1,0 +1,31 @@
+.bingo{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-template-rows:repeat(3,1fr);
+  animation-name: bingo;
+  animation-duration: 10s;
+  position:absolute;
+  top:30%;
+  animation-iteration-count: infinite;  
+  gap:0;
+  max-width:40vw;
+  .bingoWord{
+    font-size:50px;
+    color:yellow;
+    font-weight:bold;
+  }
+  .rainbowFire{
+    grid-row-start: 1;
+    grid-row-end: 4;
+    margin:0;
+    transform: rotate(-90deg);
+  }
+}
+@keyframes bingo{
+  from{
+    left:-100%;
+  }
+  to{
+    left:140%;
+  }
+}

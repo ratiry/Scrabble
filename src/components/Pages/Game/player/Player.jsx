@@ -10,14 +10,17 @@ const Player=(props)=>{
             ? props.letters.map((letter) => (
                 <Letter
                   setCandidateLetterOnClick={props.setCandidateLetterOnClick}
-                  areLettersAvaliableForPicking={props.areLettersAvaliableForPicking}
+                  areLettersAvaliableForPicking={
+                    props.areLettersAvaliableForPicking
+                  }
                   idOfPlayer={props.id}
                   value={letter.value}
                   letter={letter.letter}
                 />
               ))
             : []}
-            <P>{props.id+1}</P>
+          <P>{props.id + 1}</P>
+          <P>{props.winner==props.id? "win": props.id==props.turn ? "moves":""}</P>
         </div>
       );            
     }
@@ -25,6 +28,7 @@ const Player=(props)=>{
       <div  className={classes.player}>
         {props.letters !=undefined ? props.letters.map((letter)=><Letter  idOfPlayer={props.id} value={letter.value} letter={letter.letter}/>):[]}
         <P>{props.id+1}</P>
+        <P>{props.winner==props.id? "wins": props.id==props.turn ? "moves":""}</P>
       </div>
     );
   }else{

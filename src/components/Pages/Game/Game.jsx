@@ -115,10 +115,12 @@ const Game = () => {
     setShouldShowDiscardButton(false);
     setAreLettersAvaliableForPicking(false);
     setIsPlayersMoveActual(false);
+    setAreCellsAvaliableForPicking(false);
     setTurn(changingTurns(ammountOfPlayers,turn));
   }
   const skipButtonOnClick=()=>{
     setAreLettersAvaliableForPicking(false);
+    setAreCellsAvaliableForPicking(false);
     setIsPlayersMoveActual(false);
     setTurn(changingTurns(ammountOfPlayers,turn));
     setShouldShowDiscardButton(false);
@@ -137,9 +139,11 @@ const Game = () => {
       if (turn == 0) {
         setIsPlayersMoveActual(true);
       } else {
-        
-        const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
-        setRequestsForFindingWords(requests);
+        if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
+          const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
+          setRequestsForFindingWords(requests);
+        }
+
       }
     }
   }, [turn]);

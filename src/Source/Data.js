@@ -28,7 +28,7 @@ export const Letters = {
     { letter: "X", value: 8, copies: 1 },
     { letter: "Y", value: 4, copies: 2 },
     { letter: "Z", value: 10, copies: 1 },
-    { letter: "", value: 0, copies: 200 },
+    { letter: "", value: 0, copies: 2 },
   ],
 };
 export const Board = {

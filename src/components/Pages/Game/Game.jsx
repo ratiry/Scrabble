@@ -154,7 +154,9 @@ const Game = () => {
       }else{
         let newStock=[...stock];
         const newPlayers=[...players];
-        [newStock,newPlayers[turn]]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
+        let newLettersOfPlayer=[];
+        [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
+        newPlayers[turn]=newLettersOfPlayer[0];
         setStock(newStock);
         setPlayers(newPlayers);
         setTurn(changingTurns(ammountOfPlayers,turn));

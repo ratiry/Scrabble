@@ -1,22 +1,29 @@
 
-const countPoints=(candidateWords,candidateLetters)=>{
+const countPoints=(candidateWords,candidateLetters,lettersOfPlayer=[])=>{
   let points=0;
+  debugger;
   const candidateWords_copy=[...candidateWords];
+
   for(let i=0;i<candidateWords.length;i++){
     let pointsForWord=0;
     candidateWords[i].word.letters.map(letter=>{
-      if(letter.position==undefined){
-        pointsForWord=pointsForWord+letter.letter.value; 
-      }else if(letter.position.object=="letter" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined ){
-        pointsForWord=pointsForWord+letter.letter.value*letter.position.multiply;
-      }else{
-        pointsForWord=pointsForWord+letter.letter.value;
+      debugger;
+      if(letter.countAsZero==undefined){//
+        if(letter.position==undefined){
+          pointsForWord=pointsForWord+letter.letter.value; 
+        }else if(letter.position.object=="letter" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined ){
+          pointsForWord=pointsForWord+letter.letter.value*letter.position.multiply;
+        }else{
+          pointsForWord=pointsForWord+letter.letter.value;
+        }
       }
     })
     candidateWords[i].word.letters.map((letter) => {
-      if(letter.position!=undefined){
-        if(letter.position.object=="word" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined){
-          pointsForWord=pointsForWord*letter.position.multiply;
+      if(letter.countAsZero==undefined){
+        if(letter.position!=undefined){
+          if(letter.position.object=="word" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined){
+            pointsForWord=pointsForWord*letter.position.multiply;
+          }
         }
       }
     }); 

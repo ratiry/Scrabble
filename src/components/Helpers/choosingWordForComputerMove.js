@@ -35,6 +35,7 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
             for(let j=0;j<neededLetters.length;j++){
                 if(lettersOfPlayer.filter(letter=>letter.letter==neededLetters[j].letter.letter).length < neededLetters.filter(letter=>letter.letter.letter==neededLetters[j].letter.letter).length){
                     neededBlanksForMove=neededBlanksForMove+1;
+                    neededLetters[j].countAsZero=true;
                 }
             }
             if(neededBlanksForMove<=lettersOfPlayer.filter(letter=>letter.value==0).length){

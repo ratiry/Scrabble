@@ -191,7 +191,7 @@ const Game = () => {
         const newPointsOfPlayers=[...pointsOfPlayers];
         const [newCells,newLettersOfPlayer]= placingWordOnBoard(foundWords[indexOfFoundWordOfRequest],cells,players[turn]);
         newPlayers[turn]=newLettersOfPlayer;
-        const [points,wordsInMove]=countPoints(madeWordsByComputerPlayer,foundWords);
+        const [points,wordsInMove]=countPoints(madeWordsByComputerPlayer,foundWords[indexOfFoundWordOfRequest],players[turn]);
         newPointsOfPlayers[turn]=newPointsOfPlayers[turn]+points;
         if(newLettersOfPlayer.length==0){
           debugger;
@@ -341,7 +341,8 @@ const Game = () => {
             [],
             candidateCellForCandidateLetter
           )
-        );        
+        ); 
+        setCandidatesWords([]);
         setIsPlayersMoveActual(false);
         setAreLettersAvaliableForPicking(false);
 

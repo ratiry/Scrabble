@@ -1,6 +1,8 @@
 
 import { getDefintion_API } from './../../API/dictionary';
-const checkExistenceOfWords=(words,setCandidatesWords)=>{
+let checker = (arr, target) => target.every((v) => arr.includes(v));
+
+const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf)=>{
   const sortedWords=[];
   const requests=[];
   for(let i=0;i<words.length;i++){
@@ -11,8 +13,8 @@ const checkExistenceOfWords=(words,setCandidatesWords)=>{
     }));
   }
   Promise.all(requests).then(response=>{
-    for(let word=0;word<response.length;word++){
-      if(response[word]!=undefined){
+    for(let word=0;word<response.length;word++){//BannedWordsAndAlphabetInf.vowels,words[word].word
+      if(response[word]!=undefined & !(checker(BannedWordsAndAlphabetInf.vowels.split(""),words[word].word.toLowerCase().split("")) || checker(BannedWordsAndAlphabetInf.consonants.split(""),words[word].word.toLowerCase().split("")) || BannedWordsAndAlphabetInf.bannedWords.indexOf(words[word].word.toLowerCase())>-1 )){
         let currentWord={word:words[word],groups:[],ref:"",isExistant:true};
         currentWord.ref = response[word].data[0].sourceUrls[0];
         for(let wordWithOneMeaning=0;wordWithOneMeaning<response[word].data.length;wordWithOneMeaning++){

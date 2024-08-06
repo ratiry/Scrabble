@@ -3,7 +3,7 @@ import classes from "./Game.module.scss";
 import Player from "./player/Player";
 import Playfield from "./Playfield/Playfield";
 import { useEffect, useState } from "react";
-import { didSomebodySayBingoUrl, LettersPerPerson } from "../../../Source/Data";
+import { BannedWordsAndAlphabetInf, didSomebodySayBingoUrl, LettersPerPerson } from "../../../Source/Data";
 import { Letters } from "../../../Source/Data";
 import generateAndDestributeStock, { refillPlayersStock } from "./../../Helpers/generateAndDestributeStock";
 import { widthAndLengthOfBoard } from "../../../Source/Data";
@@ -101,7 +101,7 @@ const Game = () => {
         setShouldShowDiscardButton(true);
         setCandidateCellForCandidateLetter({});
     }else{
-      const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords);
+      const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords,BannedWordsAndAlphabetInf[location.state.language]);
       setShouldShowEndMoveButton(false);
     }
 
@@ -149,16 +149,24 @@ const Game = () => {
   }, [turn]);
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
-      if(indexOfRequestForFindingWords!=requestsForFindingWords.length){
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<25){
+        debugger;
+        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords);
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
         let newStock=[...stock];
+        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
         const newPlayers=[...players];
+        debugger;
         let newLettersOfPlayer=[];
         [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
         newPlayers[turn]=newLettersOfPlayer[0];
         setStock(newStock);
         setPlayers(newPlayers);
+        setRequestsForFindingWords([]);
+        setFoundWords([]);
+        setIndexOfFoundWordOfRequest(0);
+        setIndexOfRequestForFindingWords(0);
         setTurn(changingTurns(ammountOfPlayers,turn));
       }
     }
@@ -171,12 +179,13 @@ const Game = () => {
           newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
         }
         const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
-        checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer);
+        debugger;
+        checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer,BannedWordsAndAlphabetInf[location.state.language]);
       }else{
         setFoundWords([]);
         setIndexOfFoundWordOfRequest(0);       
       }
-    }else if(requestsForFindingWords.length>0){
+    }else if(requestsForFindingWords.length>0 || indexOfRequestForFindingWords!=requestsForFindingWords.length){
       setIndexOfRequestForFindingWords(index=>index+1);
     }
   },[indexOfFoundWordOfRequest,foundWords])
@@ -186,6 +195,7 @@ const Game = () => {
       if(madeWordsByComputerPlayer.find(word=>word.isExistant==false)){
         if(indexOfFoundWordOfRequest==foundWords.length){
           setIndexOfFoundWordOfRequest(0);
+          debugger;
           setIndexOfRequestForFindingWords(index=>index+1);
           setFoundWords([]);
         }else{
@@ -200,7 +210,6 @@ const Game = () => {
         const [points,wordsInMove]=countPoints(madeWordsByComputerPlayer,foundWords[indexOfFoundWordOfRequest],players[turn]);
         newPointsOfPlayers[turn]=newPointsOfPlayers[turn]+points;
         if(newLettersOfPlayer.length==0){
-          debugger;
           if(players[turn].length==LettersPerPerson){
             let newStock=[...stock];
             let newLettersOfPlayer=[];
@@ -316,17 +325,14 @@ const Game = () => {
         pointsOfPlayer_copy[turn] = pointsOfPlayer_copy[turn]+points;
         setCandidatesWords(wordsInMove);
         if(players[turn].length==0){
-          debugger;
           if(candidatesForMove.length==LettersPerPerson){
             let players_copy=[...players];
             let newStock=[...stock];
-            debugger;
             setShouldShowBingoAnimation(true);
             setShouldShowPopup(true);
             pointsOfPlayer_copy[turn]=pointsOfPlayer_copy[turn]+50;
             let newLettersOfPlayer=[];
             [newStock,newLettersOfPlayer]=refillPlayersStock(players_copy[turn],stock,LettersPerPerson);
-            debugger;
             players_copy[turn]=newLettersOfPlayer[0];
             setStock(newStock);
             setPlayers(players_copy);

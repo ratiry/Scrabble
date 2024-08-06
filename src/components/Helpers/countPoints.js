@@ -1,13 +1,11 @@
 
 const countPoints=(candidateWords,candidateLetters,lettersOfPlayer=[])=>{
   let points=0;
-  debugger;
   const candidateWords_copy=[...candidateWords];
 
   for(let i=0;i<candidateWords.length;i++){
     let pointsForWord=0;
     candidateWords[i].word.letters.map(letter=>{
-      debugger;
       if(letter.countAsZero==undefined){//
         if(letter.position==undefined){
           pointsForWord=pointsForWord+letter.letter.value; 

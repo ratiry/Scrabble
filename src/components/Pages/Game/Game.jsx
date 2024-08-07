@@ -141,7 +141,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
-          const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
+          const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard,players[turn]),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
           setRequestsForFindingWords(requests);
         }
 
@@ -150,7 +150,7 @@ const Game = () => {
   }, [turn]);
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
-      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<50){
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<80){
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords);
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
@@ -211,17 +211,22 @@ const Game = () => {
           if(players[turn].length==LettersPerPerson){
             let newStock=[...stock];
             let newLettersOfPlayer=[];
-            [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);//
+            [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);
             newPointsOfPlayers[turn] = newPointsOfPlayers[turn] + 50;
             newPlayers[turn]=newLettersOfPlayer[0];
             setShouldShowPopup(true);
-            setStock(newStock);//bingo
+            setStock(newStock);
             setShouldShowBingoAnimation(true);
 
+          }else if(stock.length>=LettersPerPerson){
+            let newStock = [...stock];
+            let newLettersOfPlayer=[];
+            [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,LettersPerPerson);
+            newPlayers[turn]=newLettersOfPlayer[0];
+            setStock(newStock);
+            setTurn(changingTurns(ammountOfPlayers, turn));
           }else{
-            //victory
-            // setWinner(turn);
-            setTurn(-1);
+            setTurn(-1);            
           }
         }else{
           setTurn(changingTurns(ammountOfPlayers, turn));
@@ -334,9 +339,17 @@ const Game = () => {
             players_copy[turn]=newLettersOfPlayer[0];
             setStock(newStock);
             setPlayers(players_copy);
+          }else if(stock.length>=LettersPerPerson){
+            let players_copy = [...players];
+            let newStock = [...stock];
+            let newLettersOfPlayer=[];
+            [newStock,newLettersOfPlayer]=refillPlayersStock(players_copy[turn],stock,LettersPerPerson);
+            players_copy[turn]=newLettersOfPlayer[0];
+            setTurn(changingTurns(ammountOfPlayers, turn));
+            setStock(newStock);
+            setPlayers(players_copy);
           }else{
             setTurn(-1);
-            //victory
           }
         }else{
             setTurn(changingTurns(ammountOfPlayers, turn));

@@ -1,14 +1,16 @@
 
 import bubbleSort from './bubbleSort';
+import sort_by from './sort_by';
 import sortFromMid from './sortFromTheMiddle';
 const sortRequests=(requests,level)=>{
+  debugger;
   switch(level){
-    case "low":
-      return bubbleSort(requests,true)
+    case "low"://requests.sort(sort_by("lengthOfRequest",true,parseInt))
+      return requests.sort(sort_by("lengthOfRequest", false, parseInt));
     case"medium":
-      return sortFromMid(bubbleSort(requests))
+      return sortFromMid(requests.sort(sort_by("lengthOfRequest",true,parseInt)));
     case "high":
-      return bubbleSort(requests, true).reverse();
+      return requests.sort(sort_by("lengthOfRequest", true, parseInt));
   }
 }
 export default sortRequests;

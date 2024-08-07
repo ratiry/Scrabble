@@ -28,11 +28,11 @@ const backwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=t
     for(let i=newIndex;(i+1)%widthAndLengthOfBoard!=0;i--){
         if(!cells[i]){
             if(encounteredWord!=""){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+encounteredWord.length+1].concat(requests[requests.length-1].positions)})
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+encounteredWord.length+1].concat(requests[requests.length-1].positions),lengthOfRequest:encounteredWord.concat("*").concat(requests[requests.length-1].request).length})
             }
             if(i%widthAndLengthOfBoard==0){
                 for(let j=0;j<availablePositions.length;j++){
-                    requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
+                    requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions),lengthOfRequest:"*".concat(requests[requests.length-1].request).length})
                 }     
             }
             availablePositions.push(i);
@@ -40,11 +40,11 @@ const backwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=t
         }else{
             encounteredWord=cells[i].letter.concat(encounteredWord);
             for(let j=0;j<availablePositions.length-1;j++){
-                requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
+                requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions),lengthOfRequest:"*".concat(requests[requests.length-1].request).length})
             }
             
             if(i%widthAndLengthOfBoard==0){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions)})
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions),lengthOfRequest:encounteredWord.concat("*").concat(requests[requests.length-1].request).length})
   
             }
             availablePositions=initialPositions;   
@@ -82,22 +82,22 @@ const onwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=tru
         if(!cells[i]){
             availablePositions.push(i);
             if(encounteredWord!=""){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-encounteredWord.length-1])})
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-encounteredWord.length-1]),lengthOfRequest:requests[requests.length-1].request.concat("*").concat(encounteredWord).length})
             }
             if((i+1)%widthAndLengthOfBoard==0){
                 for(let j=0;j<availablePositions.length;j++){// requests[requests.length-1].request.concat("*") //requests[requests.length-1].positions.concat([availablePositions[j]])
-                    requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]])})
+                    requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]]),lengthOfRequest:requests[requests.length-1].request.concat("*").length})
                 }     
             }
             encounteredWord=""; 
         }else{
             encounteredWord+=cells[i].letter;
             for(let j=0;j<availablePositions.length-1;j++){
-                requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]])})
+                requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]]),lengthOfRequest:requests[requests.length-1].request.concat("*").length})
             }
             
             if(i%widthAndLengthOfBoard==0){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]])})
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]]),lengthOfRequest:requests[requests.length-1].request.concat("*").concat(encounteredWord).length})
   
             }
             availablePositions=initialPositions;   
@@ -134,22 +134,22 @@ const downwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=t
         if(!cells[i]){
             availablePositions.push(i);
             if(encounteredWord!=""){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-(encounteredWord.length+1)*widthAndLengthOfBoard])})
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([i-(encounteredWord.length+1)*widthAndLengthOfBoard]),lengthOfRequest:requests[requests.length-1].request.concat("*").concat(encounteredWord).length})
             }
             if((i+widthAndLengthOfBoard)>cells.length){
                 for(let j=0;j<availablePositions.length;j++){// requests[requests.length-1].request.concat("*") //requests[requests.length-1].positions.concat([availablePositions[j]])
-                    requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]])})
+                    requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]]),lengthOfRequest:requests[requests.length-1].request.concat("*").length})
                 }     
             }
             encounteredWord=""; 
         }else{
             encounteredWord+=cells[i].letter;
             for(let j=0;j<availablePositions.length-1;j++){
-                requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]])})
+                requests.push({request:requests[requests.length-1].request.concat("*"),positions:requests[requests.length-1].positions.concat([availablePositions[j]]),lengthOfRequest:requests[requests.length-1].request.concat("*").length})
             }
             
             if((i+widthAndLengthOfBoard)>cells.length){
-                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]])})
+                requests.push({request:requests[requests.length-1].request.concat("*").concat(encounteredWord),positions:requests[requests.length-1].positions.concat([availablePositions[availablePositions.length-1]]),lengthOfRequest:requests[requests.length-1].request.concat("*").concat(encounteredWord).length})
   
             }
             availablePositions=initialPositions;   
@@ -187,22 +187,22 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=tru
         if(!cells[i]){
             availablePositions.push(i);
             if(encounteredWord!=""){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+(encounteredWord.length+1)*widthAndLengthOfBoard].concat(requests[requests.length-1].positions)})
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[i+(encounteredWord.length+1)*widthAndLengthOfBoard].concat(requests[requests.length-1].positions),lengthOfRequest:encounteredWord.concat("*").concat(requests[requests.length-1].request).length})
             }
             if(i-widthAndLengthOfBoard<0){
                 for(let j=0;j<availablePositions.length;j++){
-                    requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
+                    requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions),lengthOfRequest:"*".concat(requests[requests.length-1].request).length})
                 }     
             }
             encounteredWord=""; 
         }else{
             encounteredWord=cells[i].letter.concat(encounteredWord);
             for(let j=0;j<availablePositions.length-1;j++){
-                requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions)})
+                requests.push({request:"*".concat(requests[requests.length-1].request),positions:[availablePositions[j]].concat(requests[requests.length-1].positions),lengthOfRequest:"*".concat(requests[requests.length-1].request).length})
             }
             
             if(i%widthAndLengthOfBoard==0){
-                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions)})
+                requests.push({request:encounteredWord.concat("*").concat(requests[requests.length-1].request),positions:[availablePositions[availablePositions.length-1]].concat(requests[requests.length-1].positions),lengthOfRequest:encounteredWord.concat("*").concat(requests[requests.length-1].request).length})
   
             }
             availablePositions=initialPositions;   
@@ -210,7 +210,7 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=tru
     }
     return requests;
 }
-const constructRequests=(words,cells,widthAndLengthOfBoard)=>{
+const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer)=>{
     let requestsOfWords=[];
     for(let i=0;i<words.length;i++){
     if(words[i].word.tips.horizontal.length>0){
@@ -252,6 +252,7 @@ const constructRequests=(words,cells,widthAndLengthOfBoard)=>{
     requestsOfWords=requestsOfWords.filter((obj1, i, arr) => 
              arr.findIndex(obj2 => (obj2.request.concat( obj2.positions.join("_")) ===  obj1.request.concat( obj1.positions.join("_")))) === i
            )
+    requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.request.split("").filter(letter=>letter=="*").length<=lettersOfPlayer.length);
     return  requestsOfWords;
 }
 

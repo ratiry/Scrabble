@@ -27,6 +27,7 @@ import deleteSubWords from "../../Helpers/deleteSubWords";
 import usePrevious from "../../Helpers/hooks/usePrevious";
 import Popup from "./popup/popup";
 import Bingo from "./popup/Bingo/bingo";
+import sortRequests from "../../Helpers/sortRequests";
 
 const Game = () => {
   let location = useLocation();
@@ -140,7 +141,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
-          const requests=constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard);//add levels based on sorting of requests (long requests —> high level and vica verca)
+          const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
           setRequestsForFindingWords(requests);
         }
 
@@ -149,15 +150,13 @@ const Game = () => {
   }, [turn]);
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
-      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<25){
-        debugger;
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<50){
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords);
         choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
       }else{
         let newStock=[...stock];
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
         const newPlayers=[...players];
-        debugger;
         let newLettersOfPlayer=[];
         [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
         newPlayers[turn]=newLettersOfPlayer[0];
@@ -179,7 +178,6 @@ const Game = () => {
           newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
         }
         const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
-        debugger;
         checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer,BannedWordsAndAlphabetInf[location.state.language]);
       }else{
         setFoundWords([]);

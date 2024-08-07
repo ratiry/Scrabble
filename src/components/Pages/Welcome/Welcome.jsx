@@ -42,6 +42,11 @@ let Welcome=(props)=>{
             <select name="language" {...register("language")}>
               <option>English</option>
             </select>
+            <select name="level" {...register("level")}>
+              <option>low</option>
+              <option>medium</option>
+              <option>high</option>
+            </select>
           </div>
 
           <ButtonWithText>Play</ButtonWithText>

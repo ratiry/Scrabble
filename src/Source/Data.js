@@ -151,4 +151,7 @@ export const Board = {
 export const LettersPerPerson=7;
 export const widthAndLengthOfBoard=15;
 export const didSomebodySayBingoUrl ="https://media.tenor.com/oQBNNsF1jA8AAAAj/darklajka-wsl.gif";
+export const highLevelUrl="https://static.simpsonswiki.com/images/thumb/6/6a/Nerd_%28Robot_Chicken%29.png/250px-Nerd_%28Robot_Chicken%29.png";
+export const mediumLevelUrl="https://static.wikia.nocookie.net/gravityfalls/images/b/b4/Tad_Strange_appearance.png/revision/latest?cb=20150902105739";
+export const lowLevelUrl ="https://cdn.vectorstock.com/i/1000v/44/65/medieval-peasant-cartoon-composition-vector-41944465.jpg";
 export const rainbowFire ="https://media1.giphy.com/media/JQYLvzIPHOnvuLfQQr/giphy.gif?cid=6c09b9526qmky8qxpeeerkv3fwq220imka3dt88b19afe267&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s";

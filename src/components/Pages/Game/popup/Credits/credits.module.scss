@@ -1,0 +1,103 @@
+
+
+.container{
+  display:flex;
+  justify-content:space-between;
+  overflow:hidden;
+  & *{
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+  }
+  .levitatingDragonsOnTheRight,.levitatingDragonsOnTheLeft{
+    display:flex;
+    flex-direction:column;
+  }
+  .levitatingDragonsOnTheRight{
+    animation-name:levitatingDragonsOnTheRight;
+    animation-duration:5s;
+    img{
+      transform:scale(-1,1);
+    }
+  }
+  .levitatingDragonsOnTheLeft{
+    animation-name: levitatingDragonsOnTheLeft;
+    animation-duration: 5s;
+  }
+  .flyingDragons{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    width:100%;
+    position:relative;
+    p{
+      font-size:70px;
+      animation-delay:7s;
+      animation-name: levitatingDragonsOnTheRight;
+      animation-duration:2s;
+      opacity:0;
+    }
+    .flyingLeftDragon{
+      transform: scale(-1,1);
+      animation-name:flyingLeftDragon;
+      animation-duration: 7s;
+      animation-delay:4s;
+      right:-50%;
+    }
+    .flyingRightDragon{
+      animation-name:flyingRightDragon;
+      animation-duration: 7s;
+      animation-delay:4s;
+      left:-50%;
+    }
+    img{
+      max-width:60vw;
+      position:absolute;
+      max-height:60vh;
+    }
+   }
+}
+@keyframes levitatingDragonsOnTheRight {
+  0%{
+    opacity:0;
+  }
+  100%{
+    opacity:100;
+  }
+}
+@keyframes levitatingDragonsOnTheLeft{
+  0%{
+   opacity:0;
+  }
+  100%{
+    opacity:100;
+  }
+}
+@keyframes flyingRightDragon{
+  0%{
+    left:-40%;
+    top:0%;
+    transform:rotate(0deg);
+  }
+  30%{
+    top:50%;
+    transform:rotate(25deg);
+  }
+  100%{
+    transform:rotate(0deg);
+    top:-60%;
+    left:140%;
+  }
+}
+@keyframes flyingLeftDragon{
+  0%{
+    right:-40%;
+    top:0%;
+  }
+  30%{
+    top:50%;
+  }
+  100%{
+    top:-60%;
+    right:140%;
+  }
+}

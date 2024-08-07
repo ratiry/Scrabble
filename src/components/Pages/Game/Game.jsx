@@ -3,7 +3,7 @@ import classes from "./Game.module.scss";
 import Player from "./player/Player";
 import Playfield from "./Playfield/Playfield";
 import { useEffect, useState } from "react";
-import { BannedWordsAndAlphabetInf, didSomebodySayBingoUrl, LettersPerPerson } from "../../../Source/Data";
+import { BannedWordsAndAlphabetInf, didSomebodySayBingoUrl, flyingRightDragon, LettersPerPerson, levitatingDragon, standingKnightUrl } from "../../../Source/Data";
 import { Letters } from "../../../Source/Data";
 import generateAndDestributeStock, { refillPlayersStock } from "./../../Helpers/generateAndDestributeStock";
 import { widthAndLengthOfBoard } from "../../../Source/Data";
@@ -28,6 +28,7 @@ import usePrevious from "../../Helpers/hooks/usePrevious";
 import Popup from "./popup/popup";
 import Bingo from "./popup/Bingo/bingo";
 import sortRequests from "../../Helpers/sortRequests";
+import Credits from "./popup/Credits/credits";
 
 const Game = () => {
   let location = useLocation();
@@ -59,8 +60,9 @@ const Game = () => {
   const [indexOfFoundWordOfRequest,setIndexOfFoundWordOfRequest]=useState(0);
   const [madeWordsByComputerPlayer,setMadeWordsByComputerPlayer]=useState([]);
   const [foundWords,setFoundWords]=useState([]);
-  const [shouldShowPopup,setShouldShowPopup]=useState(false);
+  const [shouldShowPopup,setShouldShowPopup]=useState(true);
   const [shouldShowBingoAnimation,setShouldShowBingoAnimation]=useState(false);
+  const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(true);
   const [winner,setWinner]=useState(-1);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
@@ -102,6 +104,9 @@ const Game = () => {
         setShouldShowDiscardButton(true);
         setCandidateCellForCandidateLetter({});
     }else{
+      if(wordsOfMove.find(word=>word.word=="SLAVA")){
+        debugger;
+      }
       const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords,BannedWordsAndAlphabetInf[location.state.language]);
       setShouldShowEndMoveButton(false);
     }
@@ -428,11 +433,11 @@ const Game = () => {
         winner={winner}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
-
       {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
      {shouldShowPopup?
       <Popup onClick={popupOnClick}>
-        {shouldShowBingoAnimation?<Bingo/> : "" } 
+        {false?<Bingo/> : "" } 
+        { true? <Credits/>:""}
         </Popup>: ""} 
     </div>
   );

@@ -155,3 +155,8 @@ export const highLevelUrl="https://static.simpsonswiki.com/images/thumb/6/6a/Ner
 export const mediumLevelUrl="https://static.wikia.nocookie.net/gravityfalls/images/b/b4/Tad_Strange_appearance.png/revision/latest?cb=20150902105739";
 export const lowLevelUrl ="https://cdn.vectorstock.com/i/1000v/44/65/medieval-peasant-cartoon-composition-vector-41944465.jpg";
 export const rainbowFire ="https://media1.giphy.com/media/JQYLvzIPHOnvuLfQQr/giphy.gif?cid=6c09b9526qmky8qxpeeerkv3fwq220imka3dt88b19afe267&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s";
+export const levitatingDragon="https://i.pinimg.com/originals/cb/a8/2e/cba82eaff21cf8874dd6fd8d164b5c0a.gif";
+export const flyingRightDragon="https://i.pinimg.com/originals/5d/27/09/5d27099922e5fa89a861563885703ace.gif";
+  
+  
+

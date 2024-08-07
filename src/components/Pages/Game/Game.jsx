@@ -60,9 +60,9 @@ const Game = () => {
   const [indexOfFoundWordOfRequest,setIndexOfFoundWordOfRequest]=useState(0);
   const [madeWordsByComputerPlayer,setMadeWordsByComputerPlayer]=useState([]);
   const [foundWords,setFoundWords]=useState([]);
-  const [shouldShowPopup,setShouldShowPopup]=useState(true);
+  const [shouldShowPopup,setShouldShowPopup]=useState(false);
   const [shouldShowBingoAnimation,setShouldShowBingoAnimation]=useState(false);
-  const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(true);
+  const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(false);
   const [winner,setWinner]=useState(-1);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
@@ -84,9 +84,12 @@ const Game = () => {
     setShouldShowAlphabet(false);
   }
   const popupOnClick=()=>{
+    if (shouldShowBingoAnimation) {
+      setTurn(changingTurns(ammountOfPlayers, turn));
+    }
     setShouldShowPopup(false);
     setShouldShowBingoAnimation(false);
-    setTurn(changingTurns(ammountOfPlayers, turn));
+    setShouldShowCreditsAnimation(false);
   }
   const EndMoveButtonOnClick = () => {
     const wordsOfMove = getWordsOfMove(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letters);
@@ -105,7 +108,8 @@ const Game = () => {
         setCandidateCellForCandidateLetter({});
     }else{
       if(wordsOfMove.find(word=>word.word=="SLAVA")){
-        debugger;
+        setShouldShowCreditsAnimation(true);
+        setShouldShowPopup(true);
       }
       const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords,BannedWordsAndAlphabetInf[location.state.language]);
       setShouldShowEndMoveButton(false);
@@ -436,8 +440,8 @@ const Game = () => {
       {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
      {shouldShowPopup?
       <Popup onClick={popupOnClick}>
-        {false?<Bingo/> : "" } 
-        { true? <Credits/>:""}
+        {shouldShowBingoAnimation?<Bingo/> : "" } 
+        { shouldShowCreditsAnimation? <Credits/>:""}
         </Popup>: ""} 
     </div>
   );

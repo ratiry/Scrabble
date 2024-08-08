@@ -29,6 +29,7 @@ import Popup from "./popup/popup";
 import Bingo from "./popup/Bingo/bingo";
 import sortRequests from "../../Helpers/sortRequests";
 import Credits from "./popup/Credits/credits";
+import determineSkipCount from "../../Helpers/determineSkipCount";
 
 const Game = () => {
   let location = useLocation();
@@ -64,6 +65,8 @@ const Game = () => {
   const [shouldShowBingoAnimation,setShouldShowBingoAnimation]=useState(false);
   const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(false);
   const [winner,setWinner]=useState(-1);
+  const [skipCount,setSkipCount]=useState(0);
+  const [wordsLengthWhenSkippingStarted,setWordsLengthWhenSkippingStarted]=useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
       setShouldShowAlphabet(true);
@@ -129,10 +132,18 @@ const Game = () => {
     setTurn(changingTurns(ammountOfPlayers,turn));
   }
   const skipButtonOnClick=()=>{
+    const [newSkipCount,newLengthOfWordsWhenSkippingStarted,isTheEndOfGame]=determineSkipCount(skipCount,wordsLengthWhenSkippingStarted,words.length,ammountOfPlayers);
+    setSkipCount(newSkipCount);
+    setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
+    debugger;
+    if(isTheEndOfGame){
+      setTurn(-1);
+    }else{
+      setTurn(changingTurns(ammountOfPlayers, turn));
+    }
     setAreLettersAvaliableForPicking(false);
     setAreCellsAvaliableForPicking(false);
     setIsPlayersMoveActual(false);
-    setTurn(changingTurns(ammountOfPlayers,turn));
     setShouldShowDiscardButton(false);
   }
   useEffect(() => {
@@ -166,8 +177,21 @@ const Game = () => {
         let newStock=[...stock];
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
         const newPlayers=[...players];
-        let newLettersOfPlayer=[];
-        [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
+        let newLettersOfPlayer=[players[turn]];
+        if(newStock.length>=newPlayers[turn].length){
+          setTurn(changingTurns(ammountOfPlayers, turn));
+          [newStock,newLettersOfPlayer]=refillPlayersStock(newPlayers[turn],stock,players[turn].length);
+        }else{
+          const [newSkipCount,newLengthOfWordsWhenSkippingStarted,isTheEndOfGame]=determineSkipCount(skipCount,wordsLengthWhenSkippingStarted,words.length,ammountOfPlayers);
+          setSkipCount(newSkipCount);
+          setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
+          debugger;
+          if(isTheEndOfGame){
+            setTurn(-1);
+          }else{
+            setTurn(changingTurns(ammountOfPlayers, turn));
+          }
+        }
         newPlayers[turn]=newLettersOfPlayer[0];
         setStock(newStock);
         setPlayers(newPlayers);
@@ -175,7 +199,6 @@ const Game = () => {
         setFoundWords([]);
         setIndexOfFoundWordOfRequest(0);
         setIndexOfRequestForFindingWords(0);
-        setTurn(changingTurns(ammountOfPlayers,turn));
       }
     }
   },[indexOfRequestForFindingWords,requestsForFindingWords])
@@ -236,6 +259,7 @@ const Game = () => {
             setTurn(changingTurns(ammountOfPlayers, turn));
           }else{
             setTurn(-1);            
+            debugger;
           }
         }else{
           setTurn(changingTurns(ammountOfPlayers, turn));
@@ -358,6 +382,7 @@ const Game = () => {
             setStock(newStock);
             setPlayers(players_copy);
           }else{
+            debugger;
             setTurn(-1);
           }
         }else{
@@ -427,6 +452,9 @@ const Game = () => {
         shouldShowDiscardButton={shouldShowDiscardButton}
         skipButtonOnClick={skipButtonOnClick}
         winner={winner}
+        stock={stock}
+        players={players}
+        LettersPerPerson={LettersPerPerson}
       />
       <Player
         turn={turn}

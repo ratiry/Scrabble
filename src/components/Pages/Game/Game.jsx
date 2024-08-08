@@ -135,7 +135,6 @@ const Game = () => {
     const [newSkipCount,newLengthOfWordsWhenSkippingStarted,isTheEndOfGame]=determineSkipCount(skipCount,wordsLengthWhenSkippingStarted,words.length,ammountOfPlayers);
     setSkipCount(newSkipCount);
     setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
-    debugger;
     if(isTheEndOfGame){
       setTurn(-1);
     }else{
@@ -171,8 +170,8 @@ const Game = () => {
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<80){
-        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords);
-        choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language]);
+        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
+        choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language],indexOfRequestForFindingWords);
       }else{
         let newStock=[...stock];
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
@@ -185,7 +184,6 @@ const Game = () => {
           const [newSkipCount,newLengthOfWordsWhenSkippingStarted,isTheEndOfGame]=determineSkipCount(skipCount,wordsLengthWhenSkippingStarted,words.length,ammountOfPlayers);
           setSkipCount(newSkipCount);
           setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
-          debugger;
           if(isTheEndOfGame){
             setTurn(-1);
           }else{
@@ -209,6 +207,7 @@ const Game = () => {
         for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
           newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
         }
+
         const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
         checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer,BannedWordsAndAlphabetInf[location.state.language]);
       }else{
@@ -225,8 +224,8 @@ const Game = () => {
       if(madeWordsByComputerPlayer.find(word=>word.isExistant==false)){
         if(indexOfFoundWordOfRequest==foundWords.length){
           setIndexOfFoundWordOfRequest(0);
-          debugger;
           setIndexOfRequestForFindingWords(index=>index+1);
+          debugger;
           setFoundWords([]);
         }else{
           setIndexOfFoundWordOfRequest(index=>index+1);          
@@ -259,7 +258,6 @@ const Game = () => {
             setTurn(changingTurns(ammountOfPlayers, turn));
           }else{
             setTurn(-1);            
-            debugger;
           }
         }else{
           setTurn(changingTurns(ammountOfPlayers, turn));
@@ -382,7 +380,6 @@ const Game = () => {
             setStock(newStock);
             setPlayers(players_copy);
           }else{
-            debugger;
             setTurn(-1);
           }
         }else{

@@ -248,7 +248,7 @@ const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer)=>{
       requestsOfWords=requestsOfWords.concat(upwards("*",(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2-widthAndLengthOfBoard,cells,widthAndLengthOfBoard,false));
       requestsOfWords=requestsOfWords.concat(downwards("*",(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2+widthAndLengthOfBoard,cells,widthAndLengthOfBoard,false));
     }
-    requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.positions.length!=0 & requestOfWords.request.length>1);
+    requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.request.split("*").length-1>0  & requestOfWords.request.length>1);
     requestsOfWords=requestsOfWords.filter((obj1, i, arr) => 
              arr.findIndex(obj2 => (obj2.request.concat( obj2.positions.join("_")) ===  obj1.request.concat( obj1.positions.join("_")))) === i
            )

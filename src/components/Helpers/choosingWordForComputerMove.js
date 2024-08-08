@@ -1,6 +1,6 @@
 import { findWords_API } from "../../API/wordFinder"
 import sort_by from "./sort_by";
-const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,words,setFoundWords,Letters)=>{
+const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,words,setFoundWords,Letters,indexOfRequest)=>{
     let wordsFound=[];
 
     wordsFound.push(findWords_API.findWords(request).catch(error=>{

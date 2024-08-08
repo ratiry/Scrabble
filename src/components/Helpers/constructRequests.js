@@ -210,7 +210,7 @@ const upwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=tru
     }
     return requests;
 }
-const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer)=>{
+const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer,blackListOfRequests)=>{
     let requestsOfWords=[];
     for(let i=0;i<words.length;i++){
     if(words[i].word.tips.horizontal.length>0){
@@ -248,11 +248,15 @@ const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer)=>{
       requestsOfWords=requestsOfWords.concat(upwards("*",(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2-widthAndLengthOfBoard,cells,widthAndLengthOfBoard,false));
       requestsOfWords=requestsOfWords.concat(downwards("*",(widthAndLengthOfBoard*widthAndLengthOfBoard-1)/2+widthAndLengthOfBoard,cells,widthAndLengthOfBoard,false));
     }
+    // for(let i=0;i<requestsOfWords.length;i++){
+    //   requestsOfWords[i].request = requestsOfWords[i].request.toUpperCase();
+    // }
     requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.request.split("*").length-1>0  & requestOfWords.request.length>1);
     requestsOfWords=requestsOfWords.filter((obj1, i, arr) => 
              arr.findIndex(obj2 => (obj2.request.concat( obj2.positions.join("_")) ===  obj1.request.concat( obj1.positions.join("_")))) === i
            )
     requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.request.split("").filter(letter=>letter=="*").length<=lettersOfPlayer.length);
+    requestsOfWords=requestsOfWords.filter(requestOfWords=>blackListOfRequests.find(bannedRequest=>bannedRequest==requestOfWords.request)==undefined);
     return  requestsOfWords;
 }
 

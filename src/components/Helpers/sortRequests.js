@@ -7,12 +7,13 @@ const sortRequests=(requests,level)=>{
     case "low"://requests.sort(sort_by("lengthOfRequest",true,parseInt))
       return requests.sort(sort_by("lengthOfRequest", false, parseInt));
     case"medium":
-      if(requests.sort(sort_by("lengthOfRequest", true, parseInt))[requests.length-1].lengthOfRequest>7){
+      if(requests.filter(request=>request.lengthOfRequest>8).length>5){
         return requests.sort(sort_by("lengthOfRequest", false, parseInt));
       }
       return sortFromMid(requests.sort(sort_by("lengthOfRequest",true,parseInt)));
     case "high":
-      if(requests.sort(sort_by("lengthOfRequest", true, parseInt))[requests.length-1].lengthOfRequest>7){
+      //requests.filter(request=>request.lengthOfRequest>9).length>3
+      if(requests.filter(request=>request.lengthOfRequest>8).length>5){
         return sortFromMid( requests.sort(sort_by("lengthOfRequest", true, parseInt)));
       }
       return requests.sort(sort_by("lengthOfRequest", true, parseInt));

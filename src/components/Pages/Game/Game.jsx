@@ -66,6 +66,8 @@ const Game = () => {
   const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(false);
   const [winner,setWinner]=useState(-1);
   const [skipCount,setSkipCount]=useState(0);
+  const [blackListOfRequests,setBlackListOfRequests]=useState([]);
+  const [savedResultsOfRequests,setSavedResultsOfRequests]=useState([]);
   const [wordsLengthWhenSkippingStarted,setWordsLengthWhenSkippingStarted]=useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
@@ -160,7 +162,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
-          const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard,players[turn]),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
+          const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard,players[turn],blackListOfRequests),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
           setRequestsForFindingWords(requests);
         }
 
@@ -171,7 +173,18 @@ const Game = () => {
     if(requestsForFindingWords.length>0){
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<80){
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
-        choosingWordForComputerMove(requestsForFindingWords[indexOfRequestForFindingWords],players[turn],cells,words,setFoundWords,Letters[location.state.language],indexOfRequestForFindingWords);
+        choosingWordForComputerMove(
+          requestsForFindingWords[indexOfRequestForFindingWords],
+          players[turn],
+          cells,
+          words,
+          setFoundWords,
+          Letters[location.state.language],
+          indexOfRequestForFindingWords,
+          setBlackListOfRequests,
+          setSavedResultsOfRequests,
+          savedResultsOfRequests
+        );
       }else{
         let newStock=[...stock];
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
@@ -225,7 +238,6 @@ const Game = () => {
         if(indexOfFoundWordOfRequest==foundWords.length){
           setIndexOfFoundWordOfRequest(0);
           setIndexOfRequestForFindingWords(index=>index+1);
-          debugger;
           setFoundWords([]);
         }else{
           setIndexOfFoundWordOfRequest(index=>index+1);          

@@ -1,5 +1,5 @@
 
-const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,avaliableCells)=>{
+const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,avaliableCells)=>{//bug on the borders
   const avaliableCells_copy=[...avaliableCells];
      if (cells[position] != false) {
        if (

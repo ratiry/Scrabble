@@ -68,6 +68,7 @@ const Game = () => {
   const [skipCount,setSkipCount]=useState(0);
   const [blackListOfRequests,setBlackListOfRequests]=useState([]);
   const [savedResultsOfRequests,setSavedResultsOfRequests]=useState([]);
+  const [savedResultsOfFoundWords,setSavedResultsOfFoundWords]=useState([]);
   const [wordsLengthWhenSkippingStarted,setWordsLengthWhenSkippingStarted]=useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
@@ -116,7 +117,7 @@ const Game = () => {
         setShouldShowCreditsAnimation(true);
         setShouldShowPopup(true);
       }
-      const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords,BannedWordsAndAlphabetInf[location.state.language]);
+      const sortedWords=checkExistenceOfWords(wordsOfMove,setCandidatesWords,BannedWordsAndAlphabetInf[location.state.language],setSavedResultsOfFoundWords,savedResultsOfFoundWords);
       setShouldShowEndMoveButton(false);
     }
 
@@ -220,9 +221,8 @@ const Game = () => {
         for(let i=0;i<foundWords[indexOfFoundWordOfRequest].length;i++){
           newCells[foundWords[indexOfFoundWordOfRequest][i].position]=foundWords[indexOfFoundWordOfRequest][i].letter;
         }
-
         const madeWords=getWordsOfMove(newCells,foundWords[indexOfFoundWordOfRequest],widthAndLengthOfBoard,Board,Letters);
-        checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer,BannedWordsAndAlphabetInf[location.state.language]);
+        checkExistenceOfWords(madeWords,setMadeWordsByComputerPlayer,BannedWordsAndAlphabetInf[location.state.language],setSavedResultsOfFoundWords,savedResultsOfFoundWords);
       }else{
         setFoundWords([]);
         setIndexOfFoundWordOfRequest(0);       

@@ -2,15 +2,33 @@
 import { getDefintion_API } from './../../API/dictionary';
 let checker = (arr, target) => target.every((v) => arr.includes(v));
 
-const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf)=>{
+const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf,setSavedResultsOfFoundWords,savedResultsOfFoundWords)=>{
   const sortedWords=[];
   const requests=[];
+
   for(let i=0;i<words.length;i++){
-    requests.push( getDefintion_API.getDefintion(words[i].word).catch(error=>{
-      if(error.response.status==404){
+    const indexOfSavedFoundWord = savedResultsOfFoundWords.indexOf(result=>result.word==words[i].word.word);
+    if(indexOfSavedFoundWord>-1){
+      if (savedResultsOfFoundWords[indexOfSavedFoundWord].ref!=undefined) {
+        sortedWords.push({word:words[i],ref:savedResultsOfFoundWords[indexOfSavedFoundWord].ref,isExistant:true});
+      }else{
+        sortedWords.push({word:words[i],isExistant:false});
 
       }
-    }));
+    }else{
+      requests.push(
+        getDefintion_API.getDefintion(words[i].word).catch((error) => {
+          if (error.response.status == 404) {
+          }
+        })
+      ); 
+    }
+  }
+  if(requests.length==0){
+      if (savedResultsOfFoundWords.length > 0) {
+        debugger;
+      }
+    return setCandidatesWords(sortedWords);
   }
   Promise.all(requests).then(response=>{
     for(let word=0;word<response.length;word++){//BannedWordsAndAlphabetInf.vowels,words[word].word
@@ -31,7 +49,10 @@ const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf)
         sortedWords.push({word:words[word],isExistant:false});
       }
     }
-    return setCandidatesWords(sortedWords);
+    if (savedResultsOfFoundWords.length > 0) {
+      console.log(requests.length,sortedWords.length);
+    }
+    return [setCandidatesWords(sortedWords),setSavedResultsOfFoundWords(results=>results.concat(sortedWords.map(word=>{return {ref:word.ref,word:word.word.word}})))];
   });
 }
 export default checkExistenceOfWords;

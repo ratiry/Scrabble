@@ -44,7 +44,6 @@ const choosingWordsForComputerMoveFromRequest=(request,lettersOfPlayer,cells,wor
          possibleMoves.push(neededLetters);
        }
      }
-     debugger;
      return setFoundWords(possibleMoves);      
     }
     wordsFound.push(findWords_API.findWords(request).catch(error=>{

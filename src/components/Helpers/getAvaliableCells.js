@@ -1,59 +1,75 @@
 
-const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,avaliableCells)=>{//bug on the borders
+const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,avaliableCells)=>{
   const avaliableCells_copy=[...avaliableCells];
-     if (cells[position] != false) {
-       if (
-         (position - widthAndLengthOfBoard > -1) &
-         (cells[position - widthAndLengthOfBoard] == false)
-       ) {
-         avaliableCells_copy.push(position - widthAndLengthOfBoard);
-       }else if (cells[position - widthAndLengthOfBoard] !=false & position - widthAndLengthOfBoard > -1) {
-          let i=position;
-          let anotherCondition=false;
-          while(i-widthAndLengthOfBoard>-1 & cells[i - widthAndLengthOfBoard] !=false || !anotherCondition){
-            i=i-widthAndLengthOfBoard;
-            if ( i>-1 & cells[i]==false){
-              anotherCondition=true;
-            }
-          }
-          if (cells[i] ==false) {
-            avaliableCells_copy.push(i);
-          }
-       }
-       if (
-         (position + widthAndLengthOfBoard < cells.length) &
-         (cells[position + widthAndLengthOfBoard] == false)
-       ) {
-         avaliableCells_copy.push(position + widthAndLengthOfBoard);
-       }else if (cells[position + widthAndLengthOfBoard] !=false & position + widthAndLengthOfBoard < cells.length) {
-          let i=position;
-          let anotherCondition=false;
-          while(i+widthAndLengthOfBoard<cells.length & cells[i + widthAndLengthOfBoard] !=false || !anotherCondition){
-            i=i+widthAndLengthOfBoard;
-            if ((i < cells.length) & (cells[i] == false)) {
-              anotherCondition = true;
-            }
-          }
-          if (cells[i] ==false) {
-            avaliableCells_copy.push(i);
-          }
-       }
-       if (((position + 1) % widthAndLengthOfBoard != 0) & (cells[position + 1] == false)) {
-         avaliableCells_copy.push(position + 1);
-       }else if (cells[position + 1] !=false & (position + 1)  % widthAndLengthOfBoard != 0) {
-          for(let i = position+1;i<cells.length;i++){
-            if(i%widthAndLengthOfBoard==0){
+
+  if(position>-1 & position<cells.length){
+
+    if (cells[position] != false) {
+      if (position - widthAndLengthOfBoard > -1) {
+        if (cells[position - widthAndLengthOfBoard] == false) {
+          avaliableCells_copy.push(position - widthAndLengthOfBoard);
+        } else if (cells[position - widthAndLengthOfBoard] != false) {
+          let newAvaliableCell=position;
+          for(let j=position;j>-1;j=j-widthAndLengthOfBoard){
+            if(j<0){
               break;
             }
-            if(cells[i]==false){
+            newAvaliableCell = j;
+            if(!cells[j]){
+              break;
+            }
+          }
+          if(newAvaliableCell>-1){
+            if(!cells[newAvaliableCell]){
+              avaliableCells_copy.push(newAvaliableCell);
+            }
+          }
+        }
+      }
+      if (position + widthAndLengthOfBoard < cells.length) {
+        if (cells[position + widthAndLengthOfBoard] == false) {
+          avaliableCells_copy.push(position + widthAndLengthOfBoard);
+        } else if (cells[position + widthAndLengthOfBoard] != false) {
+          let i = position;
+          let anotherCondition = false;
+          let newAvaliableCell=position;
+          for(let j=position;j<cells.length;j=j+widthAndLengthOfBoard){
+            if(j>cells.length-1){
+              break;
+            }
+            newAvaliableCell = j;
+            if(!cells[j]){
+              break;
+            }
+          }
+
+          if(newAvaliableCell<cells.length){
+            if (!cells[newAvaliableCell]) {
+              avaliableCells_copy.push(newAvaliableCell);
+            }
+          }
+
+        }
+      }
+      if ((position + 1) % widthAndLengthOfBoard != 0) {
+        if (cells[position + 1] == false) {
+          avaliableCells_copy.push(position + 1);
+        } else if (cells[position + 1] != false) {
+          for (let i = position + 1; i < cells.length; i++) {
+            if (i % widthAndLengthOfBoard == 0) {
+              break;
+            }
+            if (cells[i] == false) {
               avaliableCells_copy.push(i);
               break;
             }
           }
-       }
-       if ((position % widthAndLengthOfBoard != 0) & (cells[position - 1] == false)) {
-         avaliableCells_copy.push(position - 1);
-       }else if (cells[position - 1] !=false & (position )  % widthAndLengthOfBoard != 0) {
+        }
+      }
+      if (position % widthAndLengthOfBoard != 0) {
+        if (cells[position - 1] == false) {
+          avaliableCells_copy.push(position - 1);
+        } else if (cells[position - 1] != false) {
           for (let i = position - 1; i > -1; i--) {
             if (i % widthAndLengthOfBoard == 0) {
               break;
@@ -63,14 +79,15 @@ const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,
               break;
             }
           }
-       }
+        }
+      }
+    }
+  }
 
-     }
   return avaliableCells_copy;
 
 }
 const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,candidatesForMove=[],candidatePosition={})=>{
-
   let avaliableCells=[];
   if(ammountOfLettersInMove==0){
     for (let i = 0; i < cells.length; i++) {
@@ -125,6 +142,7 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
     avaliableCells.push(tip2);
 
   }
+
  return avaliableCells;
 }
 export default getAvaliableCells;

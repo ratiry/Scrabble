@@ -151,9 +151,13 @@ export const Board = {
 export const LettersPerPerson=7;
 export const widthAndLengthOfBoard=15;
 export const didSomebodySayBingoUrl ="https://media.tenor.com/oQBNNsF1jA8AAAAj/darklajka-wsl.gif";
-export const highLevelUrl="https://static.simpsonswiki.com/images/thumb/6/6a/Nerd_%28Robot_Chicken%29.png/250px-Nerd_%28Robot_Chicken%29.png";
-export const mediumLevelUrl="https://static.wikia.nocookie.net/gravityfalls/images/b/b4/Tad_Strange_appearance.png/revision/latest?cb=20150902105739";
-export const lowLevelUrl ="https://cdn.vectorstock.com/i/1000v/44/65/medieval-peasant-cartoon-composition-vector-41944465.jpg";
+// export const highLevelUrl="https://static.simpsonswiki.com/images/thumb/6/6a/Nerd_%28Robot_Chicken%29.png/250px-Nerd_%28Robot_Chicken%29.png";
+// export const mediumLevelUrl="https://static.wikia.nocookie.net/gravityfalls/images/b/b4/Tad_Strange_appearance.png/revision/latest?cb=20150902105739";
+// export const lowLevelUrl ="https://cdn.vectorstock.com/i/1000v/44/65/medieval-peasant-cartoon-composition-vector-41944465.jpg";
+export const medalFirstPlace ="https://w7.pngwing.com/pngs/434/987/png-transparent-first-place-brown-1-with-leaves-illustration-ribbon-food-leaf-thumbnail.png";
+export const medalSecondPlace="https://image.similarpng.com/very-thumbnail/2021/04/Silver-medal-with-red-ribbon-for-second-place-on-transparent-background-PNG.png";
+export const medalThirdPlace ="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoGlI4kyijP1BfNJ4I6KVG2nWWLMfnYs6p9Q&s";
+export const medalFourthPlace = "https://i.redd.it/2hrnfs04oeyz.jpg";
 export const rainbowFire ="https://media1.giphy.com/media/JQYLvzIPHOnvuLfQQr/giphy.gif?cid=6c09b9526qmky8qxpeeerkv3fwq220imka3dt88b19afe267&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s";
 export const levitatingDragon="https://i.pinimg.com/originals/cb/a8/2e/cba82eaff21cf8874dd6fd8d164b5c0a.gif";
 export const flyingRightDragon="https://i.pinimg.com/originals/5d/27/09/5d27099922e5fa89a861563885703ace.gif";

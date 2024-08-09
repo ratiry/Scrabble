@@ -30,9 +30,12 @@ import Bingo from "./popup/Bingo/bingo";
 import sortRequests from "../../Helpers/sortRequests";
 import Credits from "./popup/Credits/credits";
 import determineSkipCount from "../../Helpers/determineSkipCount";
+import { ButtonWithText } from "../../Common/Buttons/Buttons";
+import { URLs } from './../../../App';
 
 const Game = () => {
   let location = useLocation();
+  let navigate=useNavigate();
   const ammountOfPlayers = Number(location.state.ammountOfPlayers);
   const [players, setPlayers] = useState([]);
   const previousPlayers=usePrevious(players);
@@ -64,6 +67,7 @@ const Game = () => {
   const [shouldShowPopup,setShouldShowPopup]=useState(false);
   const [shouldShowBingoAnimation,setShouldShowBingoAnimation]=useState(false);
   const [shouldShowCreditsAnimation,setShouldShowCreditsAnimation]=useState(false);
+  const [shouldShowResultsButton,setShouldShowResultsButton]=useState(false);
   const [winner,setWinner]=useState(-1);
   const [skipCount,setSkipCount]=useState(0);
   const [blackListOfRequests,setBlackListOfRequests]=useState([]);
@@ -139,7 +143,7 @@ const Game = () => {
     setSkipCount(newSkipCount);
     setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
     if(isTheEndOfGame){
-      setTurn(-1);
+      setTurn(-2);
     }else{
       setTurn(changingTurns(ammountOfPlayers, turn));
     }
@@ -147,6 +151,15 @@ const Game = () => {
     setAreCellsAvaliableForPicking(false);
     setIsPlayersMoveActual(false);
     setShouldShowDiscardButton(false);
+  }
+  const shouldShowResultsButtonOnClick=()=>{
+    setShouldShowResultsButton(false);
+    navigate(URLs.results,{
+      state:{
+        pointsOfPlayers:pointsOfPlayers,
+        level:location.state.level
+      }
+    })
   }
   useEffect(() => {
     let [stock, players] = generateAndDestributeStock( Letters[location.state.language],Number(ammountOfPlayers),LettersPerPerson);
@@ -168,6 +181,8 @@ const Game = () => {
         }
 
       }
+    }else if(turn==-2){
+      setShouldShowResultsButton(true);
     }
   }, [turn]);
   useEffect(()=>{
@@ -199,7 +214,7 @@ const Game = () => {
           setSkipCount(newSkipCount);
           setWordsLengthWhenSkippingStarted(newLengthOfWordsWhenSkippingStarted);
           if(isTheEndOfGame){
-            setTurn(-1);
+            setTurn(-2);
           }else{
             setTurn(changingTurns(ammountOfPlayers, turn));
           }
@@ -269,7 +284,7 @@ const Game = () => {
             setStock(newStock);
             setTurn(changingTurns(ammountOfPlayers, turn));
           }else{
-            setTurn(-1);            
+            setTurn(-2);            
           }
         }else{
           setTurn(changingTurns(ammountOfPlayers, turn));
@@ -392,7 +407,7 @@ const Game = () => {
             setStock(newStock);
             setPlayers(players_copy);
           }else{
-            setTurn(-1);
+            setTurn(-2);
           }
         }else{
             setTurn(changingTurns(ammountOfPlayers, turn));
@@ -475,6 +490,7 @@ const Game = () => {
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
       {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
+      {shouldShowResultsButton ? <ButtonWithText onClick={shouldShowResultsButtonOnClick} >Results</ButtonWithText> : <div></div>}
      {shouldShowPopup?
       <Popup onClick={popupOnClick}>
         {shouldShowBingoAnimation?<Bingo/> : "" } 

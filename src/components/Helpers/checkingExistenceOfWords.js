@@ -28,31 +28,34 @@ const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf,
       if (savedResultsOfFoundWords.length > 0) {
         debugger;
       }
+    
     return setCandidatesWords(sortedWords);
-  }
-  Promise.all(requests).then(response=>{
-    for(let word=0;word<response.length;word++){//BannedWordsAndAlphabetInf.vowels,words[word].word
-      if(response[word]!=undefined & !(checker(BannedWordsAndAlphabetInf.vowels.split(""),words[word].word.toLowerCase().split("")) || checker(BannedWordsAndAlphabetInf.consonants.split(""),words[word].word.toLowerCase().split("")) || BannedWordsAndAlphabetInf.bannedWords.indexOf(words[word].word.toLowerCase())>-1 )){
-        let currentWord={word:words[word],groups:[],ref:"",isExistant:true};
-        currentWord.ref = response[word].data[0].sourceUrls[0];
-        for(let wordWithOneMeaning=0;wordWithOneMeaning<response[word].data.length;wordWithOneMeaning++){
-          for(let meanings=0;meanings<response[word].data[wordWithOneMeaning].meanings.length;meanings++){
-            let group= {partOfSpeech:response[word].data[wordWithOneMeaning].meanings[meanings].partOfSpeech,definitions:[]};
-            for(let definitions=0;definitions<response[word].data[wordWithOneMeaning].meanings[meanings].definitions.length;definitions++){
-              group.definitions.push(response[word].data[wordWithOneMeaning].meanings[meanings].definitions[definitions]);
+  }else{
+    Promise.all(requests).then(response=>{
+      for(let word=0;word<response.length;word++){//BannedWordsAndAlphabetInf.vowels,words[word].word
+        if(response[word]!=undefined & !(checker(BannedWordsAndAlphabetInf.vowels.split(""),words[word].word.toLowerCase().split("")) || checker(BannedWordsAndAlphabetInf.consonants.split(""),words[word].word.toLowerCase().split("")) || BannedWordsAndAlphabetInf.bannedWords.indexOf(words[word].word.toLowerCase())>-1 )){
+          let currentWord={word:words[word],groups:[],ref:"",isExistant:true};
+          currentWord.ref = response[word].data[0].sourceUrls[0];
+          for(let wordWithOneMeaning=0;wordWithOneMeaning<response[word].data.length;wordWithOneMeaning++){
+            for(let meanings=0;meanings<response[word].data[wordWithOneMeaning].meanings.length;meanings++){
+              let group= {partOfSpeech:response[word].data[wordWithOneMeaning].meanings[meanings].partOfSpeech,definitions:[]};
+              for(let definitions=0;definitions<response[word].data[wordWithOneMeaning].meanings[meanings].definitions.length;definitions++){
+                group.definitions.push(response[word].data[wordWithOneMeaning].meanings[meanings].definitions[definitions]);
+              }
+              currentWord.groups.push(group);
             }
-            currentWord.groups.push(group);
           }
+          sortedWords.push(currentWord);
+        }else{
+          sortedWords.push({word:words[word],isExistant:false});
         }
-        sortedWords.push(currentWord);
-      }else{
-        sortedWords.push({word:words[word],isExistant:false});
       }
-    }
-    if (savedResultsOfFoundWords.length > 0) {
-      console.log(requests.length,sortedWords.length);
-    }
-    return [setCandidatesWords(sortedWords),setSavedResultsOfFoundWords(results=>results.concat(sortedWords.map(word=>{return {ref:word.ref,word:word.word.word}})))];
-  });
+      if (savedResultsOfFoundWords.length > 0) {
+        console.log(requests.length,sortedWords.length);
+      }
+      return [setCandidatesWords(sortedWords),setSavedResultsOfFoundWords(results=>results.concat(sortedWords.map(word=>{return {ref:word.ref,word:word.word.word}})))];
+    });
+  }
+
 }
 export default checkExistenceOfWords;

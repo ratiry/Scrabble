@@ -11,7 +11,7 @@ let Results=(props)=>{
     useEffect(()=>{
       if(pointsOfPlayers.length>0){
         const pointsOfPlayer=pointsOfPlayers[0]
-        const sortedPoints=bubbleSort(pointsOfPlayers);
+        const sortedPoints=bubbleSort(pointsOfPlayers).reverse();
         setPlace(sortedPoints.findIndex(points=>pointsOfPlayer==points)+1);
       }
     },[pointsOfPlayers])

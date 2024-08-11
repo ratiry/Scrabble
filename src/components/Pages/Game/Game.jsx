@@ -489,7 +489,7 @@ const Game = () => {
         winner={winner}
         ammountOfPlayers={ammountOfPlayers}
       ></Player>
-      {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : <div></div>}
+      {shouldShowAlphabet? <AlphabetContainer pickValueForBlankOnClick={pickValueForBlankOnClick} letters={Letters[location.state.language]}/> : ""}
       {shouldShowResultsButton ? <ButtonWithText onClick={shouldShowResultsButtonOnClick} >Results</ButtonWithText> : <div></div>}
      {shouldShowPopup?
       <Popup onClick={popupOnClick}>

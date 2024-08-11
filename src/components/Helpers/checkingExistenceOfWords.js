@@ -27,6 +27,7 @@ const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf,
   if(requests.length==0){
       if (savedResultsOfFoundWords.length > 0) {
         debugger;
+        debugger;
       }
     
     return setCandidatesWords(sortedWords);

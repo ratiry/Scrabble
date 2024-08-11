@@ -21,7 +21,7 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
       }
     }
     for(let j=candidatesForMove[i].position;j<cells.length;j++){
-      if(j%widthAndLengthOfBoard==0){
+      if(j%widthAndLengthOfBoard==0 & candidatesForMove[i].position%widthAndLengthOfBoard!=0){
         break;
       }
       horizontalTip2=horizontalTip2+1;
@@ -30,7 +30,7 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
       }
     }
     for (let j = candidatesForMove[i].position; j > -1; j--) {
-      if ((j+1) % widthAndLengthOfBoard == 0) {
+      if ((j+1) % widthAndLengthOfBoard == 0 & (candidatesForMove[i].position+1)%widthAndLengthOfBoard!=0) {
         break;
       }
       horizontalTip1 = horizontalTip1 - 1;
@@ -64,8 +64,7 @@ const getWordsOfMove=(cells,candidatesForMove,widthAndLengthOfBoard,Board,Letter
         horizontalWord.word = horizontalWord.word+cells[j].letter;
       }
     }
-    if(words.find(word=>word.tips.horizontal[0]==horizontalWord.tips.horizontal[0] 
-      & word.tips.horizontal[1]==horizontalWord.tips.horizontal[1]) ==undefined & horizontalWord.word!=""){
+    if(words.find(word=>word.tips.horizontal[0]==horizontalWord.tips.horizontal[0] & word.tips.horizontal[1]==horizontalWord.tips.horizontal[1]) ==undefined & horizontalWord.word!=""){
       words.push(horizontalWord);
     }
     if (words.find(word=>word.tips.vertical[0]==verticalWord.tips.vertical[0] 

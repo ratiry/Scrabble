@@ -1,4 +1,5 @@
 
+import checkForUniqueness from './checkForUniqueness';
 const backwards=(initialWord,index,cells,widthAndLengthOfBoard,areWordsOnBoard=true)=>{
     let encounteredWord="";
     let availablePositions=[];
@@ -258,6 +259,7 @@ const constructRequests=(words,cells,widthAndLengthOfBoard,lettersOfPlayer,black
     requestsOfWords=requestsOfWords.filter(requestOfWords=>requestOfWords.request.split("").filter(letter=>letter=="*").length<=lettersOfPlayer.length);
     requestsOfWords=requestsOfWords.filter(requestOfWords=>blackListOfRequests.find(bannedRequest=>bannedRequest==requestOfWords.request)==undefined);
     requestsOfWords=requestsOfWords.filter(requestOfWords=>!requestOfWords.positions.find(pos=>pos==undefined));
+    requestsOfWords=requestsOfWords.filter(requestOfWords=>checkForUniqueness(requestOfWords.positions) );
     return  requestsOfWords;
 }
 

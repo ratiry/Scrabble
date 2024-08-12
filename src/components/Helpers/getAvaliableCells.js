@@ -71,7 +71,7 @@ const condiditionalsForCheckingNeighbours=(position,widthAndLengthOfBoard,cells,
           avaliableCells_copy.push(position - 1);
         } else if (cells[position - 1] != false) {
           for (let i = position - 1; i > -1; i--) {
-            if (i % widthAndLengthOfBoard == 0) {
+            if ((i+1) % widthAndLengthOfBoard == 0) {
               break;
             }
             if (cells[i] == false) {

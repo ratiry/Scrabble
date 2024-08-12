@@ -177,6 +177,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
+          debugger;
           const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard,players[turn],blackListOfRequests),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
           setRequestsForFindingWords(requests);
         }

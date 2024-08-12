@@ -13,11 +13,12 @@ const sortRequests=(requests,level)=>{
       return sortFromMid(requests.sort(sort_by("lengthOfRequest",true,parseInt)));
     case "high":
       //requests.filter(request=>request.lengthOfRequest>9).length>3
-      if(requests.filter(request=>request.lengthOfRequest>8).length>5){
-        return sortFromMid(requests.sort(sort_by("lengthOfRequest",true,parseInt)));
-      }
-      if(requests.filter(request=>request.lengthOfRequest>8).length>7){
+      debugger;
+      if(requests.filter(request=>request.lengthOfRequest>8).length>20){
           return requests.sort(sort_by("lengthOfRequest", false, parseInt));
+      }
+      if(requests.filter(request=>request.lengthOfRequest>8).length>10){
+        return sortFromMid(requests.sort(sort_by("lengthOfRequest",true,parseInt)));
       }
       return requests.sort(sort_by("lengthOfRequest", true, parseInt));
   }

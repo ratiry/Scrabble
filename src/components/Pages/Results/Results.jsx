@@ -17,7 +17,7 @@ let Results=(props)=>{
     },[pointsOfPlayers])
     return (
       <div className={classes.results}>
-        {place == 1 ? <img className={classes.resultsImg} src={medalFirstPlace}/> : ""}
+        {place == 1 ? <><img className={classes.resultsImg} src={medalFirstPlace}/> поздравляю! вы на </>: ""}
         {place == 2 ? <img className={classes.resultsImg} src={medalSecondPlace}/> : ""}
         {place == 3 ? <img className={classes.resultsImg} src={medalThirdPlace}/> : ""}
         {place == 4 ? <img className={classes.resultsImg} src={medalFourthPlace}/> : ""}

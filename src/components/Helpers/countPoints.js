@@ -17,13 +17,12 @@ const countPoints=(candidateWords,candidateLetters,lettersOfPlayer=[])=>{
       }
     })
     candidateWords[i].word.letters.map((letter) => {
-      if(letter.countAsZero==undefined){
-        if(letter.position!=undefined){
-          if(letter.position.object=="word" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined){
-            pointsForWord=pointsForWord*letter.position.multiply;
-          }
+      if(letter.position!=undefined){
+        if(letter.position.object=="word" & candidateLetters.find(candidateLetter=>candidateLetter.position==letter.position.position)!=undefined){
+          pointsForWord=pointsForWord*letter.position.multiply;
         }
       }
+      
     }); 
     candidateWords_copy[i].points=pointsForWord;
     points=points+pointsForWord;

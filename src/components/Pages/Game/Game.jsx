@@ -32,6 +32,7 @@ import Credits from "./popup/Credits/credits";
 import determineSkipCount from "../../Helpers/determineSkipCount";
 import { ButtonWithText } from "../../Common/Buttons/Buttons";
 import { URLs } from './../../../App';
+import useLocalStorage from "../../Helpers/hooks/useLocalStorage";
 
 const Game = () => {
   let location = useLocation();
@@ -71,8 +72,8 @@ const Game = () => {
   const [winner,setWinner]=useState(-1);
   const [skipCount,setSkipCount]=useState(0);
   const [blackListOfRequests,setBlackListOfRequests]=useState([]);
-  const [savedResultsOfRequests,setSavedResultsOfRequests]=useState([]);
-  const [savedResultsOfFoundWords,setSavedResultsOfFoundWords]=useState([]);
+  const [savedResultsOfRequests,setSavedResultsOfRequests]=useLocalStorage("savedResultsOfRequests",[]);
+  const [savedResultsOfFoundWords,setSavedResultsOfFoundWords]=useLocalStorage("savedResultsOfFoundWords",[]);
   const [wordsLengthWhenSkippingStarted,setWordsLengthWhenSkippingStarted]=useState(0);
   const setCandidateCellForCandidateLetterOnClick = (cell) => {
     if(candidateLetter.letter==""){
@@ -187,7 +188,7 @@ const Game = () => {
   }, [turn]);
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
-      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<80){
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<120){
         console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
         choosingWordForComputerMove(
           requestsForFindingWords[indexOfRequestForFindingWords],

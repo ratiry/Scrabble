@@ -7,29 +7,29 @@ const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf,
   const requests=[];
 
   for(let i=0;i<words.length;i++){
-    const indexOfSavedFoundWord = savedResultsOfFoundWords.indexOf(result=>result.word==words[i].word.word);
-    if(indexOfSavedFoundWord>-1){
-      if (savedResultsOfFoundWords[indexOfSavedFoundWord].ref!=undefined) {
-        sortedWords.push({word:words[i],ref:savedResultsOfFoundWords[indexOfSavedFoundWord].ref,isExistant:true});
-      }else{
-        sortedWords.push({word:words[i],isExistant:false});
-
-      }
+    const indexOfSavedFoundWord = savedResultsOfFoundWords.indexOf(result=>result.word==words[i].word.word);//add here checker for banned words
+    if(checker(BannedWordsAndAlphabetInf.vowels.split(""),words[i].word.toLowerCase().split("")) || checker(BannedWordsAndAlphabetInf.consonants.split(""),words[i].word.toLowerCase().split("")) || BannedWordsAndAlphabetInf.bannedWords.indexOf(words[i].word.toLowerCase())>-1 ){
+      sortedWords.push({ word: words[i], isExistant: false });
     }else{
-      requests.push(
-        getDefintion_API.getDefintion(words[i].word).catch((error) => {
-          if (error.response.status == 404) {
-          }
-        })
-      ); 
+      if(indexOfSavedFoundWord>-1){
+        if (savedResultsOfFoundWords[indexOfSavedFoundWord].ref!=undefined) {
+          sortedWords.push({word:words[i],ref:savedResultsOfFoundWords[indexOfSavedFoundWord].ref,isExistant:true});
+        }else{
+          sortedWords.push({word:words[i],isExistant:false});
+
+        }
+      }else{
+        requests.push(
+          getDefintion_API.getDefintion(words[i].word).catch((error) => {
+            if (error.response.status == 404) {
+            }
+          })
+        ); 
+      }
     }
+
   }
   if(requests.length==0){
-      if (savedResultsOfFoundWords.length > 0) {
-        debugger;
-        debugger;
-      }
-    
     return setCandidatesWords(sortedWords);
   }else{
     Promise.all(requests).then(response=>{

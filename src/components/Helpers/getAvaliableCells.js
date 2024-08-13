@@ -96,11 +96,9 @@ const getAvaliableCells=(cells,widthAndLengthOfBoard,ammountOfLettersInMove,cand
   }else if(ammountOfLettersInMove==1){
     avaliableCells=condiditionalsForCheckingNeighbours(candidatePosition.position,widthAndLengthOfBoard,cells,avaliableCells);
    }else if(ammountOfLettersInMove>1){
-    console.log(candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position);
     let [tip1, tip2] = [candidatePosition.position, candidatePosition.position];
     if((candidatePosition.position-candidatesForMove[candidatesForMove.length-1].position) % widthAndLengthOfBoard==0){
       for(let i=candidatePosition.position;i<cells.length;i=i+widthAndLengthOfBoard){
-        console.log(i);
         if(i>cells.length){
           break;
         }

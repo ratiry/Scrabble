@@ -51,9 +51,7 @@ const checkExistenceOfWords=(words,setCandidatesWords,BannedWordsAndAlphabetInf,
           sortedWords.push({word:words[word],isExistant:false});
         }
       }
-      if (savedResultsOfFoundWords.length > 0) {
-        console.log(requests.length,sortedWords.length);
-      }
+
       return [setCandidatesWords(sortedWords),setSavedResultsOfFoundWords(results=>results.concat(sortedWords.map(word=>{return {ref:word.ref,word:word.word.word}})))];
     });
   }

@@ -177,9 +177,7 @@ const Game = () => {
         setIsPlayersMoveActual(true);
       } else {
         if(!areLettersAvaliableForPicking & !areCellsAvaliableForPicking){
-          debugger;
           const requests=sortRequests( constructRequests(deleteSubWords(words),cells,widthAndLengthOfBoard,players[turn],blackListOfRequests),location.state.level);//add levels based on sorting of requests (long requests —> high level and vica verca)
-          debugger;
           setRequestsForFindingWords(requests);
         }
 
@@ -191,7 +189,7 @@ const Game = () => {
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
       if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<120){
-        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
+        // console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
         choosingWordForComputerMove(
           requestsForFindingWords[indexOfRequestForFindingWords],
           players[turn],
@@ -206,7 +204,7 @@ const Game = () => {
         );
       }else{
         let newStock=[...stock];
-        console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
+        // console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,"  +");
         const newPlayers=[...players];
         let newLettersOfPlayer=[players[turn]];
         if(newStock.length>=newPlayers[turn].length){

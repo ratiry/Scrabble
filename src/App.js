@@ -7,9 +7,9 @@ import Results from './components/Pages/Results/Results';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 export const URLs={
-  welcome:'/',
-  game:"/Game",
-  results:"/Results"
+  welcome:'/Scrabble',
+  game:"/Scrabble/Game",
+  results:"/Scrabble/Results"
 }
 function App() {
 

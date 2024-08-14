@@ -33,6 +33,7 @@ import determineSkipCount from "../../Helpers/determineSkipCount";
 import { ButtonWithText } from "../../Common/Buttons/Buttons";
 import { URLs } from './../../../App';
 import useLocalStorage from "../../Helpers/hooks/useLocalStorage";
+import determineNumberOfAttempts from "../../Helpers/determineNumberOfAttempts";
 
 const Game = () => {
   let location = useLocation();
@@ -188,7 +189,7 @@ const Game = () => {
   }, [turn]);
   useEffect(()=>{
     if(requestsForFindingWords.length>0){
-      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<120){
+      if(indexOfRequestForFindingWords!=requestsForFindingWords.length & indexOfRequestForFindingWords<determineNumberOfAttempts(words)){
         // console.log(requestsForFindingWords.length,indexOfRequestForFindingWords,requestsForFindingWords[indexOfRequestForFindingWords]);
         choosingWordForComputerMove(
           requestsForFindingWords[indexOfRequestForFindingWords],
